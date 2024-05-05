@@ -1,0 +1,24 @@
+.hero-container {
+  min-height: 95vh;
+  min-width: 100%;
+  background: url(/Images/Homepage/dogo_onsen_hero_1.png);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  font-family: Montserrat, sans-serif;
+  background-color: rgba(255, 254, 254, 0.8);
+}
+
+.title {
+  color: #000000;
+  text-align: center;
+  letter-spacing: 20px;
+}
+
+.button-text {
+  color: #000000;
+  text-align: center;
+  letter-spacing: 2px;
+}
