@@ -5,7 +5,13 @@ import { Grid, Button, Toolbar, AppBar } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import "./mainHomeStyles.css";
 
-const TITLES = ["Homepage", "Sobre Nosotros", "Registro", "Login"];
+const TITLES = [
+  "Homepage",
+  "Sobre Nosotros",
+  "Ingreso",
+  "Registro",
+  "Sobre el Desarrollador",
+];
 
 const MainHomeRenderer = () => {
   const { pathname } = useLocation();
@@ -28,6 +34,12 @@ const MainHomeRenderer = () => {
       default:
         return <HomeContainer />;
     }
+  };
+
+  const onClickDeveloper = () => {
+    window
+      .open("https://www.linkedin.com/in/guillermo-toloza-guzman/", "_blank")
+      .focus();
   };
 
   return (
@@ -132,7 +144,15 @@ const MainHomeRenderer = () => {
                             textAlign: "left",
                           }}
                         >
-                          <Button variant="text" style={{ color: "white" }}>
+                          <Button
+                            variant="text"
+                            onClick={
+                              element === "Sobre el Desarrollador"
+                                ? onClickDeveloper
+                                : () => {}
+                            }
+                            style={{ color: "white" }}
+                          >
                             <b>{element}</b>
                           </Button>
                         </Grid>
