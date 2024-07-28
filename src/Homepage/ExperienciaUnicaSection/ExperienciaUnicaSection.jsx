@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Divider } from "@mui/material";
 
 const ExperienciaUnicaSection = () => {
@@ -47,13 +47,18 @@ const ExperienciaUnicaSection = () => {
             >
               Sea para darte un escape, relajarte o visitar uno de los lugares
               más emblemáticos de Japón, en Dogo Onsen contamos con lo necesario
-              para que tengas una visita increíble
+              para que tengas una visita increíble.
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={2}>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider
+                  style={{
+                    backgroundColor: "black",
+                    borderBottomWidth: "3px",
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>

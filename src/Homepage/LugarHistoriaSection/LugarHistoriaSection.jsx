@@ -39,9 +39,14 @@ const LugarHistoriaSection = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Grid container>
+            <Grid container justifyContent="flex-end">
               <Grid item xs={2}>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider
+                  style={{
+                    backgroundColor: "black",
+                    borderBottomWidth: "3px",
+                  }}
+                />
               </Grid>
             </Grid>
           </Grid>

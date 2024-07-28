@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import WebFont from "webfontloader";
 import { Grid } from "@mui/material";
 
 import HeroSection from "./HeroSection/HeroSection";
 import ExperienciaUnicaSection from "./ExperienciaUnicaSection/ExperienciaUnicaSection";
 import LugarHistoriaSection from "./LugarHistoriaSection/LugarHistoriaSection";
+import UbicacionSection from "./UbicacionSection/UbicacionSection";
+import CardsSection from "./CardsSection/CardsSection";
 
 const HomeContainer = () => {
   useEffect(() => {
@@ -25,6 +27,12 @@ const HomeContainer = () => {
       </Grid>
       <Grid item xs={12}>
         <LugarHistoriaSection />
+      </Grid>
+      <Grid item xs={12}>
+        <UbicacionSection />
+      </Grid>
+      <Grid item xs={12}>
+        <CardsSection />
       </Grid>
     </Grid>
   );
