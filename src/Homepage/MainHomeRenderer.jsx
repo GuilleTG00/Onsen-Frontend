@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import WebFont from "webfontloader";
-import HomeContainer from "./HomeContainer";
 import { Grid, Button, Toolbar, AppBar } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./mainHomeStyles.css";
+
+import HomeContainer from "./HomeContainer";
+import LoginPage from "../Login/LoginPage";
+import SignupPage from "../Register/SignUpPage";
 
 const TITLES = [
   "Homepage",
@@ -15,6 +18,7 @@ const TITLES = [
 
 const MainHomeRenderer = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
 
   useEffect(() => {
@@ -31,6 +35,10 @@ const MainHomeRenderer = () => {
     switch (parsedPathname) {
       case "home":
         return <HomeContainer />;
+      case "login":
+        return <LoginPage />;
+      case "signup":
+        return <SignupPage />;
       default:
         return <HomeContainer />;
     }
@@ -40,6 +48,18 @@ const MainHomeRenderer = () => {
     window
       .open("https://www.linkedin.com/in/guillermo-toloza-guzman/", "_blank")
       .focus();
+  };
+
+  const navigateLogin = () => {
+    navigate("/login");
+  };
+
+  const navigateHome = () => {
+    navigate("/home");
+  };
+
+  const navigateSignup = () => {
+    navigate("/signup");
   };
 
   return (
@@ -73,7 +93,7 @@ const MainHomeRenderer = () => {
             <Grid item xs={4}>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Button variant="text">
+                  <Button onClick={navigateHome} variant="text">
                     <b className="button-text">HOME</b>
                   </Button>
                 </Grid>
@@ -87,12 +107,20 @@ const MainHomeRenderer = () => {
             <Grid item xs={4}>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Button variant="text" className="button-text">
+                  <Button
+                    onClick={navigateLogin}
+                    variant="text"
+                    className="button-text"
+                  >
                     <b className="button-text">Ingreso</b>
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="text" className="button-text">
+                  <Button
+                    onClick={navigateSignup}
+                    variant="text"
+                    className="button-text"
+                  >
                     <b className="button-text">Registro</b>
                   </Button>
                 </Grid>
