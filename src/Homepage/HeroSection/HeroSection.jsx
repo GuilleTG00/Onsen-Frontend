@@ -1,15 +1,9 @@
 import React from "react";
 import { Grid, Typography, Button } from "@mui/material";
-import "./heroClasses.css";
 
 const HeroSection = () => {
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      className="hero-container"
-    >
+    <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={12}>
         <Grid
           container

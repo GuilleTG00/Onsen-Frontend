@@ -7,6 +7,7 @@ import "./mainHomeStyles.css";
 import HomeContainer from "./HomeContainer";
 import LoginPage from "../Login/LoginPage";
 import SignupPage from "../Register/SignUpPage";
+import DashboardPage from "./Dashboard/DashboardPage";
 
 const TITLES = [
   "Homepage",
@@ -20,6 +21,7 @@ const MainHomeRenderer = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     WebFont.load({
@@ -39,6 +41,8 @@ const MainHomeRenderer = () => {
         return <LoginPage />;
       case "signup":
         return <SignupPage />;
+      case "dashboard":
+        return <DashboardPage />;
       default:
         return <HomeContainer />;
     }
@@ -60,6 +64,10 @@ const MainHomeRenderer = () => {
 
   const navigateSignup = () => {
     navigate("/signup");
+  };
+
+  const navigateDashboard = () => {
+    navigate("/dashboard");
   };
 
   return (
@@ -102,6 +110,17 @@ const MainHomeRenderer = () => {
                     <b className="button-text">Sobre Nosotros</b>
                   </Button>
                 </Grid>
+                {isLoggedIn && (
+                  <Grid item>
+                    <Button
+                      onClick={navigateDashboard}
+                      variant="text"
+                      className="button-text"
+                    >
+                      <b className="button-text">Dashboard</b>
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
             <Grid item xs={4}>
