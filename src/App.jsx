@@ -5,6 +5,9 @@ import { createTheme } from "@mui/material/styles";
 // Implementacion de Lazy Loading para su carga únicamente al ser usado.
 
 const MainRenderer = React.lazy(() => import("./Homepage/MainHomeRenderer"));
+const DashboardRenderer = React.lazy(() =>
+  import("./Homepage/MainDashboardRenderer")
+);
 
 //Creamos tema de colores para usar dentro de la aplicación.
 
@@ -29,6 +32,7 @@ function App() {
             <Route path="/login" element={<MainRenderer />} />
             <Route path="/signup" element={<MainRenderer />} />
             <Route path="/dashboard" element={<MainRenderer />} />
+            <Route path="/crear-reserva" element={<DashboardRenderer />} />
 
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>

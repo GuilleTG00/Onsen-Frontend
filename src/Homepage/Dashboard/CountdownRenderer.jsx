@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 
-const Completionist = () => <span>Webinar is already finished!</span>;
+const Completionist = () => <span>Esta reserva ha sido completada.</span>;
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
   // Renderer callback with condition
   if (completed) {
@@ -20,8 +20,8 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
   } else {
     // Render a countdown
     return (
-      <Grid container justifyContent="center" spacing={5}>
-        <Grid item xs={2}>
+      <Grid container justifyContent="space-evenly" spacing={5}>
+        <Grid item xs={3}>
           <Grid
             container
             style={{ backgroundColor: "white" }}
@@ -30,7 +30,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
           >
             <Grid item xs={12}>
               <Typography
-                variant="h4"
+                variant="h5"
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   color: "black",
@@ -52,7 +52,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Grid
             container
             style={{ backgroundColor: "white" }}
@@ -61,7 +61,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
           >
             <Grid item xs={12}>
               <Typography
-                variant="h4"
+                variant="h5"
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   color: "black",
@@ -83,7 +83,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Grid
             container
             style={{ backgroundColor: "white" }}
@@ -92,7 +92,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
           >
             <Grid item xs={12}>
               <Typography
-                variant="h4"
+                variant="h5"
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   color: "black",
@@ -114,7 +114,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Grid
             container
             style={{ backgroundColor: "white" }}
@@ -123,7 +123,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
           >
             <Grid item xs={12}>
               <Typography
-                variant="h4"
+                variant="h5"
                 style={{
                   fontFamily: "Montserrat, sans-serif",
                   color: "black",

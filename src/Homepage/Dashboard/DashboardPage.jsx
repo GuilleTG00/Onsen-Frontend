@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Countdown from "react-countdown";
 import {
   Grid,
@@ -22,6 +23,7 @@ import "./dashboard-styles.css";
 import CountdownRenderer from "./CountdownRenderer";
 
 const DashboardPage = () => {
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFinal, setFechaFinal] = useState(null);
 
@@ -77,7 +79,7 @@ const DashboardPage = () => {
                             value={
                               moment(fechaInicio)
                                 ? moment(fechaInicio)
-                                : moment()
+                                : moment(new Date())
                             }
                             onChange={(newValue) => setFechaInicio(newValue)}
                             onFocus={(e) => {
@@ -97,7 +99,9 @@ const DashboardPage = () => {
                             format="MM-DD-YYYY"
                             label="Selecciona la fecha final"
                             value={
-                              moment(fechaFinal) ? moment(fechaFinal) : moment()
+                              moment(fechaFinal)
+                                ? moment(fechaFinal)
+                                : moment(new Date())
                             }
                             onChange={(newValue) => setFechaFinal(newValue)}
                             onFocus={(e) => {
@@ -131,7 +135,7 @@ const DashboardPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container>
-          <Grid item xs={12} padding={5}>
+          <Grid item xs={12} padding={isSmallScreen ? 0 : 5}>
             <Typography
               variant="h4"
               sx={{
@@ -146,9 +150,9 @@ const DashboardPage = () => {
           <Grid
             item
             xs={12}
-            paddingLeft={20}
-            paddingRight={20}
-            paddingBottom={20}
+            paddingLeft={isSmallScreen ? 0 : 10}
+            paddingRight={isSmallScreen ? 0 : 10}
+            paddingBottom={isSmallScreen ? 0 : 10}
           >
             <Card style={{ backgroundColor: "#d9d9d9" }}>
               <CardContent>
@@ -157,7 +161,7 @@ const DashboardPage = () => {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Grid item xs={5}>
+                  <Grid item xs={12} md={4}>
                     <Grid
                       container
                       style={{
@@ -195,7 +199,7 @@ const DashboardPage = () => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={7} style={{}}>
+                  <Grid item xs={12} md={8} paddingLeft={3}>
                     <Grid container justifyContent="space-evenly">
                       <Grid item xs={12}>
                         <Countdown
