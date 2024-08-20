@@ -11,6 +11,8 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import SpeedIcon from "@mui/icons-material/Speed";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 
+import { Typography } from "@mui/material";
+
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
@@ -25,7 +27,7 @@ const STEPS_LABEL = [
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 28,
+    top: 30,
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
@@ -52,8 +54,8 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState, index }) => ({
   backgroundColor: "white",
   zIndex: 1,
   color: "#fff",
-  width: 50,
-  height: 50,
+  width: 60,
+  height: 60,
   display: "flex",
   borderRadius: "100%",
   boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
@@ -111,7 +113,15 @@ const CrearReservaStepper = ({ activeStep, handleChangeStep }) => {
             )}
             onClick={handleChangeStep(index)}
           >
-            <b>{label}</b>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#000000",
+                textAlign: "center",
+              }}
+            >
+              <b>{label}</b>
+            </Typography>
           </StepLabel>
         </Step>
       ))}

@@ -47,7 +47,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
                   color: "black",
                 }}
               >
-                Days
+                Días
               </Typography>
             </Grid>
           </Grid>
@@ -78,7 +78,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
                   color: "black",
                 }}
               >
-                Hours
+                Horas
               </Typography>
             </Grid>
           </Grid>
@@ -109,7 +109,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
                   color: "black",
                 }}
               >
-                Minutes
+                Minutos
               </Typography>
             </Grid>
           </Grid>
@@ -140,7 +140,7 @@ const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
                   color: "black",
                 }}
               >
-                Seconds
+                Segundos
               </Typography>
             </Grid>
           </Grid>
