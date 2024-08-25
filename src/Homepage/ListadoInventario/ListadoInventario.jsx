@@ -18,48 +18,16 @@ const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
 const LISTADO_RESERVAS_ACTIVAS = [
   {
-    fechaDeReserva: new Date("02-06-2024"),
-    nombreHabitacion: "“Habitación Onsen High Class”",
-    tipoHabitacion: "Premium",
-    fechaDeCheckIn: new Date("12-12-2024"),
-    fechaDeCheckOut: new Date("16-16-2024"),
+    nombreProducto: "Jabones Especiales",
+    cantidad: 50,
   },
   {
-    fechaDeReserva: new Date("02-06-2024"),
-    nombreHabitacion: "“Habitación 2”",
-    tipoHabitacion: "Classic",
-    fechaDeCheckIn: new Date("10-07-2024"),
-    fechaDeCheckOut: new Date("12-07-2024"),
-  },
-  {
-    fechaDeReserva: new Date("02-06-2024"),
-    nombreHabitacion: "“Habitación 3”",
-    tipoHabitacion: "Economic",
-    fechaDeCheckIn: new Date("13-10-2024"),
-    fechaDeCheckOut: new Date("15-10-2024"),
+    nombreProducto: "Kit de Bienvenida",
+    cantidad: 50,
   },
 ];
 
-const LISTADO_RESERVAS_COMPLETADAS = [
-  {
-    fechaDeReserva: new Date("01-01-2024"),
-    nombreHabitacion: "“Habitación Onsen High Class”",
-    tipoHabitacion: "Premium",
-    fechaDeCheckIn: new Date("12-01-2024"),
-    fechaDeCheckOut: new Date("16-01-2024"),
-    calificacion: 5,
-  },
-  {
-    fechaDeReserva: new Date("02-06-2024"),
-    nombreHabitacion: "“Habitación 2”",
-    tipoHabitacion: "Classic",
-    fechaDeCheckIn: new Date("20-11-2023"),
-    fechaDeCheckOut: new Date("24-11-2023"),
-    calificacion: 5,
-  },
-];
-
-const ListadoReservas = ({ startDate, endDate }) => {
+const ListadoInventario = ({ startDate, endDate }) => {
   const [fechaInicio, setFechaInicio] = useState(new Date());
   const [fechaFinal, setFechaFinal] = useState(new Date());
 
@@ -94,7 +62,7 @@ const ListadoReservas = ({ startDate, endDate }) => {
                     fontFamily: "montserrat, sans-serif",
                   }}
                 >
-                  <b>Listado Reservas</b>
+                  <b>Listado Inventario</b>
                 </Typography>
               </Grid>
             </Grid>
@@ -114,24 +82,7 @@ const ListadoReservas = ({ startDate, endDate }) => {
                     fontFamily: "montserrat, sans-serif",
                   }}
                 >
-                  <b>Reservas Activas</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}></Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: "#000000",
-                    textAlign: "center",
-                    fontFamily: "montserrat, sans-serif",
-                  }}
-                >
-                  <b>Reservas Completadas</b>
+                  <b>Inventario</b>
                 </Typography>
               </Grid>
               <Grid item xs={12}></Grid>
@@ -143,4 +94,4 @@ const ListadoReservas = ({ startDate, endDate }) => {
   );
 };
 
-export default ListadoReservas;
+export default ListadoInventario;
