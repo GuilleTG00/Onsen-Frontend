@@ -64,8 +64,6 @@ const ListadoReservas = ({ startDate, endDate }) => {
   const [fechaInicio, setFechaInicio] = useState(new Date());
   const [fechaFinal, setFechaFinal] = useState(new Date());
 
-  console.log(LISTADO_RESERVAS_ACTIVAS);
-
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>

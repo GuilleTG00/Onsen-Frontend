@@ -10,8 +10,6 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  Tooltip,
-  IconButton,
   tableCellClasses,
   Paper,
 } from "@mui/material";
@@ -84,15 +82,6 @@ const TableView = ({ tableData }) => {
                   );
                 })
               : null}
-            <StyledTableCell
-              style={{
-                justifyContent: "center",
-                textAlign: "center",
-                alignItems: "center",
-              }}
-            >
-              <b>Order Actions</b>
-            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -116,55 +105,6 @@ const TableView = ({ tableData }) => {
                       </StyledTableCell>
                     );
                   })}
-                  <StyledTableCell
-                    style={{
-                      justifyContent: "center",
-                      textAlign: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Grid
-                      container
-                      spacing={1}
-                      direction="row"
-                      justifyContent="center"
-                      flexWrap="nowrap"
-                    >
-                      <Grid item>
-                        <Tooltip title={<b>View</b>} arrow placement="top">
-                          <IconButton
-                            //onClick={handleOpenTIDValue(excelValue[currentKey])}
-                            edge="end"
-                            color="primary"
-                          >
-                            SEARCH
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
-                      <Grid item>
-                        <Tooltip title={<b>Update</b>} arrow placement="top">
-                          <IconButton
-                            //onClick={handleOpenEditModal(excelValue["id"])}
-                            edge="end"
-                            color="primary"
-                          >
-                            EDIT
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
-                      <Grid item>
-                        <Tooltip title={<b>Delete</b>} arrow placement="top">
-                          <IconButton
-                            //onClick={handleDelete(excelValue["id"])}
-                            edge="end"
-                            color="error"
-                          >
-                            CLEAR
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
-                    </Grid>
-                  </StyledTableCell>
                 </StyledTableRow>
               );
             })}

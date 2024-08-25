@@ -31,10 +31,9 @@ function App() {
             <Route path="/home" element={<MainRenderer />} />
             <Route path="/login" element={<MainRenderer />} />
             <Route path="/signup" element={<MainRenderer />} />
-            <Route path="/dashboard" element={<MainRenderer />} />
+            <Route path="/dashboard" element={<DashboardRenderer />} />
             <Route path="/crear-reserva" element={<DashboardRenderer />} />
             <Route path="/listado-reservas" element={<DashboardRenderer />} />
-
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         </BrowserRouter>

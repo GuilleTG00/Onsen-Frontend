@@ -41,8 +41,6 @@ const MainHomeRenderer = () => {
         return <LoginPage />;
       case "signup":
         return <SignupPage />;
-      case "dashboard":
-        return <DashboardPage />;
       default:
         return <HomeContainer />;
     }
@@ -89,16 +87,17 @@ const MainHomeRenderer = () => {
           <Grid container justifyContent="space-around" alignItems="center">
             <Grid item xs={4}>
               <img
+                onClick={navigateHome}
                 src="/Images/Homepage/onsen-logo.png"
                 style={{
-                  height: "8%",
-                  width: "8%",
+                  height: "50px",
+                  width: "50px",
                   cursor: "pointer",
                 }}
                 alt="Onsen Logo"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Grid container justifyContent="center">
                 <Grid item>
                   <Button onClick={navigateHome} variant="text">
@@ -121,10 +120,6 @@ const MainHomeRenderer = () => {
                     </Button>
                   </Grid>
                 )}
-              </Grid>
-            </Grid>
-            <Grid item xs={4}>
-              <Grid container justifyContent="center">
                 <Grid item>
                   <Button
                     onClick={navigateLogin}

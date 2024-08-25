@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WebFont from "webfontloader";
-import { Grid, Button, Toolbar, AppBar } from "@mui/material";
+import { Grid, Button, Toolbar, AppBar, Divider } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./mainHomeStyles.css";
 
@@ -21,11 +21,12 @@ const TITLES = [
 
 const MainHomeRenderer = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const navigate = useNavigate();
+  const [selectedView, setSelectedView] = useState(parsedPathname);
 
   useEffect(() => {
+    setSelectedView(parsedPathname);
     WebFont.load({
       google: {
         families: ["Montserrat:300,400,500,600,700,800,900"],
@@ -58,20 +59,21 @@ const MainHomeRenderer = () => {
       .focus();
   };
 
-  const navigateLogin = () => {
-    navigate("/login");
+  const navigateReservas = () => {
+    navigate("/listado-reservas");
   };
 
   const navigateHome = () => {
     navigate("/home");
   };
 
-  const navigateSignup = () => {
-    navigate("/signup");
+  const navigateCrearReserva = () => {
+    navigate("/crear-reserva");
   };
 
-  const navigateDashboard = () => {
-    navigate("/dashboard");
+  const handleLogout = () => {
+    localStorage.removeItem("loggedIn");
+    navigate("/home");
   };
 
   return (
@@ -91,36 +93,73 @@ const MainHomeRenderer = () => {
       >
         <Toolbar>
           <Grid container justifyContent="space-around" alignItems="center">
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <img
+                onClick={navigateHome}
                 src="/Images/Homepage/onsen-logo.png"
                 style={{
-                  height: "8%",
-                  width: "8%",
+                  height: "40px",
+                  width: "40px",
                   cursor: "pointer",
                 }}
                 alt="Onsen Logo"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Button variant="text" className="button-text">
+                  <Button
+                    onClick={navigateReservas}
+                    variant="text"
+                    className="button-text"
+                  >
                     <b className="button-text">Mis Reservas</b>
                   </Button>
+                  {["listado-reservas"].includes(parsedPathname) && (
+                    <Divider
+                      stlye={{
+                        background: "#68b9ff",
+                        borderBottomWidth: 3,
+                      }}
+                    />
+                  )}
                 </Grid>
                 <Grid item>
                   <Button onClick={navigateHome} variant="text">
                     <b className="button-text">INICIO</b>
                   </Button>
+                  {["dashboard"].includes(parsedPathname) && (
+                    <Divider
+                      stlye={{
+                        background: "#68b9ff",
+                        borderBottomWidth: 3,
+                      }}
+                    />
+                  )}
                 </Grid>
                 <Grid item>
-                  <Button variant="text" className="button-text">
+                  <Button
+                    onClick={navigateCrearReserva}
+                    variant="text"
+                    className="button-text"
+                  >
                     <b className="button-text">Crear Reserva</b>
                   </Button>
                 </Grid>
+                {["crear-reserva"].includes(parsedPathname) && (
+                  <Divider
+                    stlye={{
+                      background: "#68b9ff",
+                      borderBottomWidth: 3,
+                    }}
+                  />
+                )}
                 <Grid item>
-                  <Button variant="text" className="button-text">
+                  <Button
+                    onClick={handleLogout}
+                    variant="text"
+                    className="button-text"
+                  >
                     <b className="button-text">Logout</b>
                   </Button>
                 </Grid>
