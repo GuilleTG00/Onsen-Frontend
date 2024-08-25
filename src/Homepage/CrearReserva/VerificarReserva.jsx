@@ -64,7 +64,13 @@ const VerificarReserva = ({}) => {
   }, [values]);
 
   return (
-    <Grid container spacing={10} paddingBottom={20} style={{ color: "black" }}>
+    <Grid
+      container
+      alignItems="center"
+      spacing={10}
+      paddingBottom={10}
+      style={{ color: "black" }}
+    >
       <Grid item xs={12}>
         <Typography
           variant="h2"
@@ -78,15 +84,19 @@ const VerificarReserva = ({}) => {
         </Typography>
       </Grid>
       <Grid item xs={7}>
-        <img
-          src="/Images/Homepage/onsen-logo.png"
-          style={{
-            height: "8%",
-            width: "8%",
-            cursor: "pointer",
-          }}
-          alt="Onsen Logo"
-        />
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <img
+              src="/Images/Homepage/onsen-logo.png"
+              style={{
+                height: "8%",
+                width: "8%",
+                cursor: "pointer",
+              }}
+              alt="Onsen Logo"
+            />
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={5}>
         <Grid container justifyContent="center" spacing={5}>

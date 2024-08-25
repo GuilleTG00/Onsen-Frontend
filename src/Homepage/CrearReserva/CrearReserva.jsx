@@ -12,7 +12,7 @@ import SeleccionarHabitacion from "./SeleccionarHabitacion";
 import VerificarReserva from "./VerificarReserva";
 
 const CrearReserva = () => {
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleChangeStep = (newStep) => () => {
     setActiveStep(newStep);
