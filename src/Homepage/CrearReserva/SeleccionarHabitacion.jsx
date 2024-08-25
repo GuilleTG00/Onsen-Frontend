@@ -244,7 +244,12 @@ const SeleccionarHabitacion = ({ startDate, endDate }) => {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Grid container padding={5} style={{ backgroundColor: "#d9d9d9" }}>
+        <Grid
+          container
+          justifyContent="center"
+          padding={5}
+          style={{ backgroundColor: "#d9d9d9" }}
+        >
           <Typography
             variant="h6"
             sx={{
