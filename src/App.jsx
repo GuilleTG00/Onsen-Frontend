@@ -33,6 +33,7 @@ function App() {
             <Route path="/signup" element={<MainRenderer />} />
             <Route path="/dashboard" element={<MainRenderer />} />
             <Route path="/crear-reserva" element={<DashboardRenderer />} />
+            <Route path="/listado-reservas" element={<DashboardRenderer />} />
 
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>

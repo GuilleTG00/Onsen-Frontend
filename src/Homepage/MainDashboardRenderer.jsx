@@ -9,6 +9,7 @@ import LoginPage from "../Login/LoginPage";
 import SignupPage from "../Register/SignUpPage";
 import DashboardPage from "./Dashboard/DashboardPage";
 import CrearReserva from "./CrearReserva/CrearReserva";
+import ListadoReservas from "./ListadoReservas/ListadoReservas";
 
 const TITLES = [
   "Homepage",
@@ -44,6 +45,8 @@ const MainHomeRenderer = () => {
         return <SignupPage />;
       case "dashboard":
         return <DashboardPage />;
+      case "listado-reservas":
+        return <ListadoReservas />;
       default:
         return <HomeContainer />;
     }
