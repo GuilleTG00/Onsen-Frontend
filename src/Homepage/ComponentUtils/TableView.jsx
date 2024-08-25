@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Grid,
@@ -38,7 +38,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const ModalEditarInventario = () => {
+const TableView = ({ tableData }) => {
+  const [currentTableKeys, setCurrentTableKeys] = useState(null);
+
+  useEffect(() => {
+    setCurrentTableKeys(Object.keys(tableData[0]));
+  }, []);
+
   return (
     <TableContainer
       component={Paper}
@@ -54,10 +60,11 @@ const ModalEditarInventario = () => {
       >
         <TableHead>
           <TableRow>
-            {!_.isEmpty(currentElementKeys)
-              ? currentElementKeys.map((key, index) => {
+            {!_.isEmpty(currentTableKeys) && !_.isNil(currentTableKeys)
+              ? currentTableKeys.map((key, index) => {
                   return (
                     <StyledTableCell
+                      key={index}
                       index={key + index}
                       style={{ textAlign: "center" }}
                     >
@@ -66,11 +73,11 @@ const ModalEditarInventario = () => {
                         alignItems="center"
                         justifyContent="center"
                       >
-                        <Grid item xs={11}>
-                          <b>{headerParser(key)}</b>
-                        </Grid>
-                        <Grid item xs={1}>
-                          {checkFilters(key)}
+                        <Grid item xs={12}>
+                          <b>
+                            {key}
+                            {/*headerParser(key)*/}
+                          </b>
                         </Grid>
                       </Grid>
                     </StyledTableCell>
@@ -89,14 +96,15 @@ const ModalEditarInventario = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading &&
-            !_.isEmpty(filteredData) &&
-            filteredData.map((excelValue, index) => {
+          {!_.isEmpty(tableData) &&
+            !_.isNil(currentTableKeys) &&
+            tableData.map((excelValue, index) => {
               return (
-                <StyledTableRow key={excelValue + index}>
-                  {currentElementKeys.map((currentKey, innerIndex) => {
+                <StyledTableRow key={index}>
+                  {currentTableKeys.map((currentKey, innerIndex) => {
                     return (
                       <StyledTableCell
+                        key={index + innerIndex}
                         index={innerIndex}
                         style={{
                           justifyContent: "center",
@@ -119,6 +127,7 @@ const ModalEditarInventario = () => {
                       container
                       spacing={1}
                       direction="row"
+                      justifyContent="center"
                       flexWrap="nowrap"
                     >
                       <Grid item>
@@ -128,29 +137,29 @@ const ModalEditarInventario = () => {
                             edge="end"
                             color="primary"
                           >
-                            <SearchIcon />
+                            SEARCH
                           </IconButton>
                         </Tooltip>
                       </Grid>
                       <Grid item>
                         <Tooltip title={<b>Update</b>} arrow placement="top">
                           <IconButton
-                            onClick={handleOpenEditModal(excelValue["id"])}
+                            //onClick={handleOpenEditModal(excelValue["id"])}
                             edge="end"
                             color="primary"
                           >
-                            <EditIcon />
+                            EDIT
                           </IconButton>
                         </Tooltip>
                       </Grid>
                       <Grid item>
                         <Tooltip title={<b>Delete</b>} arrow placement="top">
                           <IconButton
-                            onClick={handleDelete(excelValue["id"])}
+                            //onClick={handleDelete(excelValue["id"])}
                             edge="end"
                             color="error"
                           >
-                            <ClearIcon />
+                            CLEAR
                           </IconButton>
                         </Tooltip>
                       </Grid>
@@ -161,9 +170,8 @@ const ModalEditarInventario = () => {
             })}
         </TableBody>
       </Table>
-      {checkIfLoading()}
     </TableContainer>
   );
 };
 
-export default ModalEditarInventario;
+export default TableView;

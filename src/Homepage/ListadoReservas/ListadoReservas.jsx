@@ -13,48 +13,49 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import "../../GeneralStyles/formStyles.css";
+import TableView from "../ComponentUtils/TableView";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
 const LISTADO_RESERVAS_ACTIVAS = [
   {
-    fechaDeReserva: new Date("02-06-2024"),
+    fechaDeReserva: "02-06-2024",
     nombreHabitacion: "“Habitación Onsen High Class”",
     tipoHabitacion: "Premium",
-    fechaDeCheckIn: new Date("12-12-2024"),
-    fechaDeCheckOut: new Date("16-16-2024"),
+    fechaDeCheckIn: "12-12-2024",
+    fechaDeCheckOut: "16-12-2024",
   },
   {
-    fechaDeReserva: new Date("02-06-2024"),
+    fechaDeReserva: "02-06-2024",
     nombreHabitacion: "“Habitación 2”",
     tipoHabitacion: "Classic",
-    fechaDeCheckIn: new Date("10-07-2024"),
-    fechaDeCheckOut: new Date("12-07-2024"),
+    fechaDeCheckIn: "10-07-2024",
+    fechaDeCheckOut: "12-07-2024",
   },
   {
-    fechaDeReserva: new Date("02-06-2024"),
+    fechaDeReserva: "02-06-2024",
     nombreHabitacion: "“Habitación 3”",
     tipoHabitacion: "Economic",
-    fechaDeCheckIn: new Date("13-10-2024"),
-    fechaDeCheckOut: new Date("15-10-2024"),
+    fechaDeCheckIn: "12-10-2024",
+    fechaDeCheckOut: "15-10-2024",
   },
 ];
 
 const LISTADO_RESERVAS_COMPLETADAS = [
   {
-    fechaDeReserva: new Date("01-01-2024"),
+    fechaDeReserva: "01-01-2024",
     nombreHabitacion: "“Habitación Onsen High Class”",
     tipoHabitacion: "Premium",
-    fechaDeCheckIn: new Date("12-01-2024"),
-    fechaDeCheckOut: new Date("16-01-2024"),
+    fechaDeCheckIn: "12-01-2024",
+    fechaDeCheckOut: "16-01-2024",
     calificacion: 5,
   },
   {
-    fechaDeReserva: new Date("02-06-2024"),
+    fechaDeReserva: "02-06-2024",
     nombreHabitacion: "“Habitación 2”",
     tipoHabitacion: "Classic",
-    fechaDeCheckIn: new Date("20-11-2023"),
-    fechaDeCheckOut: new Date("24-11-2023"),
+    fechaDeCheckIn: "20-11-2023",
+    fechaDeCheckOut: "24-11-2023",
     calificacion: 5,
   },
 ];
@@ -62,6 +63,8 @@ const LISTADO_RESERVAS_COMPLETADAS = [
 const ListadoReservas = ({ startDate, endDate }) => {
   const [fechaInicio, setFechaInicio] = useState(new Date());
   const [fechaFinal, setFechaFinal] = useState(new Date());
+
+  console.log(LISTADO_RESERVAS_ACTIVAS);
 
   return (
     <Grid container justifyContent="center" spacing={10}>
@@ -102,7 +105,13 @@ const ListadoReservas = ({ startDate, endDate }) => {
         </Card>
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={5} justifyContent="center" alignItems="center">
+        <Grid
+          container
+          padding={5}
+          spacing={5}
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid item xs={12}>
             <Grid container justifyContent="center" alignItems="center">
               <Grid item xs={12}>
@@ -117,7 +126,9 @@ const ListadoReservas = ({ startDate, endDate }) => {
                   <b>Reservas Activas</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}></Grid>
+              <Grid item xs={12}>
+                <TableView tableData={LISTADO_RESERVAS_ACTIVAS} />
+              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -134,7 +145,9 @@ const ListadoReservas = ({ startDate, endDate }) => {
                   <b>Reservas Completadas</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}></Grid>
+              <Grid item xs={12}>
+                <TableView tableData={LISTADO_RESERVAS_COMPLETADAS} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+  Tooltip,
+  IconButton,
+  tableCellClasses,
+  Paper,
   Grid,
   Button,
   Card,
@@ -7,6 +17,31 @@ import {
   CardActions,
   Typography,
 } from "@mui/material";
+
+import {} from "@mui/material";
+
+import { styled } from "@mui/material/styles";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#939393",
+    color: theme.palette.common.black,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 12,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
 import { Carousel } from "nuka-carousel";
 
 import IconButton from "@mui/material/IconButton";
