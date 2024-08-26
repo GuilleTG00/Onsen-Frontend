@@ -8,6 +8,7 @@ import HomeContainer from "./HomeContainer";
 import LoginPage from "../Login/LoginPage";
 import SignupPage from "../Register/SignUpPage";
 import DashboardPage from "./Dashboard/DashboardPage";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const TITLES = [
   "Homepage",
@@ -18,6 +19,7 @@ const TITLES = [
 ];
 
 const MainHomeRenderer = () => {
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
@@ -68,14 +70,13 @@ const MainHomeRenderer = () => {
     navigate("/dashboard");
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/home");
+  };
+
   return (
-    <Grid
-      container
-      style={{
-        padding: 0,
-      }}
-    >
-      {/**AppBar que se verá en cada una de las vistas */}
+    <Grid container>
       <AppBar
         position="sticky"
         sx={{
@@ -85,7 +86,7 @@ const MainHomeRenderer = () => {
       >
         <Toolbar>
           <Grid container justifyContent="space-around" alignItems="center">
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <img
                 onClick={navigateHome}
                 src="/Images/Homepage/onsen-logo.png"
@@ -104,11 +105,6 @@ const MainHomeRenderer = () => {
                     <b className="button-text">HOME</b>
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button variant="text" className="button-text">
-                    <b className="button-text">Sobre Nosotros</b>
-                  </Button>
-                </Grid>
                 {isLoggedIn && (
                   <Grid item>
                     <Button
@@ -120,24 +116,39 @@ const MainHomeRenderer = () => {
                     </Button>
                   </Grid>
                 )}
-                <Grid item>
-                  <Button
-                    onClick={navigateLogin}
-                    variant="text"
-                    className="button-text"
-                  >
-                    <b className="button-text">Ingreso</b>
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    onClick={navigateSignup}
-                    variant="text"
-                    className="button-text"
-                  >
-                    <b className="button-text">Registro</b>
-                  </Button>
-                </Grid>
+                {!isLoggedIn && (
+                  <>
+                    <Grid item>
+                      <Button
+                        onClick={navigateLogin}
+                        variant="text"
+                        className="button-text"
+                      >
+                        <b className="button-text">Ingreso</b>
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        onClick={navigateSignup}
+                        variant="text"
+                        className="button-text"
+                      >
+                        <b className="button-text">Registro</b>
+                      </Button>
+                    </Grid>
+                  </>
+                )}
+                {isLoggedIn && (
+                  <Grid item>
+                    <Button
+                      onClick={logoutHandler}
+                      variant="text"
+                      className="button-text"
+                    >
+                      <b className="button-text">Logout</b>
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -150,24 +161,23 @@ const MainHomeRenderer = () => {
           background: "black",
           zIndex: 2,
         }}
-        sx={{ top: "auto", bottom: 0 }}
       >
         <Toolbar>
-          <Grid container alignItems="center" padding={2}>
+          <Grid container alignItems="center" padding={isSmallScreen ? 0 : 2}>
             <Grid item xs={12}>
               <Grid
                 container
                 alignItems="center"
                 justifyContent="center"
-                padding={5}
+                padding={isSmallScreen ? 5 : 5}
               >
                 <Grid item xs={12} md={4}>
                   <Button>
                     <img
                       src="/Images/Homepage/onsen-logo-red.png"
                       style={{
-                        height: "15%",
-                        width: "15%",
+                        height: "50px",
+                        width: "50px",
                         cursor: "pointer",
                       }}
                       alt="Onsen Logo Dark"
@@ -181,7 +191,8 @@ const MainHomeRenderer = () => {
                         <Grid
                           item
                           key={key}
-                          xs={4}
+                          xs={12}
+                          md={4}
                           style={{
                             textAlign: "left",
                           }}

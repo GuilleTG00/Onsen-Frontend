@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Grid, Typography, Divider } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ExperienciaUnicaSection = () => {
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
+
   return (
     <Grid container alignItems="center">
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <Grid container>
           <Grid item>
             <video width="100%" height="100%" autoPlay loop muted>
@@ -16,11 +19,11 @@ const ExperienciaUnicaSection = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <Grid
           container
-          paddingLeft={15}
-          paddingRight={15}
+          paddingLeft={isSmallScreen ? 0 : 15}
+          paddingRight={isSmallScreen ? 0 : 15}
           spacing={5}
           alignItems="center"
           justifyContent="center"

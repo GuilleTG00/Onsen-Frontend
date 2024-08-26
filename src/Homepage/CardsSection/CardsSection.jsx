@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Typography, Divider } from "@mui/material";
 import CardRenderer from "./CardRenderer";
 import ChihiroMessage from "./ChihiroMessage";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const CARDS_INFO = [
   {
@@ -22,6 +23,7 @@ const CARDS_INFO = [
 ];
 
 const CardsSection = () => {
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
   return (
     <Grid container alignItems="center" paddingTop={5}>
       <Grid item xs={12}>
@@ -32,7 +34,7 @@ const CardsSection = () => {
           }}
         />
       </Grid>
-      <Grid item xs={12} padding={8}>
+      <Grid item xs={12} padding={isSmallScreen ? 0 : 8}>
         <Grid
           container
           spacing={10}
@@ -41,7 +43,7 @@ const CardsSection = () => {
         >
           {CARDS_INFO.map((element, key) => {
             return (
-              <Grid item key={key} xs={4}>
+              <Grid item key={key} xs={12} md={4}>
                 <Grid
                   container
                   spacing={3}

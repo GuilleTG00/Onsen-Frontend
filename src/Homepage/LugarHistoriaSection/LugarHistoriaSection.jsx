@@ -1,14 +1,16 @@
 import React from "react";
 import { Grid, Typography, Divider } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const LugarHistoriaSection = () => {
+  const isSmallScreen = useMediaQuery("(max-width:800px)");
   return (
     <Grid container alignItems="center">
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <Grid
           container
-          paddingLeft={15}
-          paddingRight={15}
+          paddingLeft={isSmallScreen ? 0 : 15}
+          paddingRight={isSmallScreen ? 0 : 15}
           spacing={5}
           alignItems="center"
           justifyContent="center"
@@ -52,7 +54,7 @@ const LugarHistoriaSection = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6}>
         <Grid container>
           <Grid item>
             <img

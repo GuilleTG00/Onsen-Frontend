@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 
@@ -27,15 +27,17 @@ function App() {
     <>
       <div style={{ margin: 0 }}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/home" element={<MainRenderer />} />
-            <Route path="/login" element={<MainRenderer />} />
-            <Route path="/signup" element={<MainRenderer />} />
-            <Route path="/dashboard" element={<DashboardRenderer />} />
-            <Route path="/crear-reserva" element={<DashboardRenderer />} />
-            <Route path="/listado-reservas" element={<DashboardRenderer />} />
-            <Route path="*" element={<Navigate to="/home" />} />
-          </Routes>
+          <Suspense fallback={<></>}>
+            <Routes>
+              <Route path="/home" element={<MainRenderer />} />
+              <Route path="/login" element={<MainRenderer />} />
+              <Route path="/signup" element={<MainRenderer />} />
+              <Route path="/dashboard" element={<DashboardRenderer />} />
+              <Route path="/crear-reserva" element={<DashboardRenderer />} />
+              <Route path="/listado-reservas" element={<DashboardRenderer />} />
+              <Route path="*" element={<Navigate to="/home" />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </div>
     </>
