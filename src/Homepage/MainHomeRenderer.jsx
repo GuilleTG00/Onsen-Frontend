@@ -7,7 +7,6 @@ import "./mainHomeStyles.css";
 import HomeContainer from "./HomeContainer";
 import LoginPage from "../Login/LoginPage";
 import SignupPage from "../Register/SignUpPage";
-import DashboardPage from "./Dashboard/DashboardPage";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const TITLES = [

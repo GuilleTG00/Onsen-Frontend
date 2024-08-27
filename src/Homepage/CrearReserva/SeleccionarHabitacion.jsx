@@ -7,7 +7,7 @@ import {
   CardActions,
   Typography,
 } from "@mui/material";
-import { Carousel } from "nuka-carousel";
+import Carousel from "nuka-carousel";
 
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -22,7 +22,13 @@ const CARDS_INFORMATION = [
     subtitle: "Habitación Premium",
     roomDescription: "Onsen Privado",
     camas: "5 camas",
-    images: ["/Images/Homepage/luxury-onsen-ryokan_4.jpg"],
+    images: [
+      "/Images/Homepage/HighClass/onsen-high-1.jpg",
+      "/Images/Homepage/HighClass/onsen-high-2.jpg",
+      "/Images/Homepage/HighClass/onsen-high-3.jpg",
+      "/Images/Homepage/HighClass/onsen-high-4.jpg",
+      "/Images/Homepage/HighClass/onsen-high-5.jpg",
+    ],
   },
   {
     title: "“Habitación 2”",
@@ -30,8 +36,11 @@ const CARDS_INFORMATION = [
     roomDescription: "Onsen Privado",
     camas: "3 camas",
     images: [
-      "/Images/Homepage/onsen-classic.jpg",
-      "/Images/Homepage/onsen-classic.jpg",
+      "/Images/Homepage/Habitacion2/onsen-hab-2-1.jpg",
+      "/Images/Homepage/Habitacion2/onsen-hab-2-2.jpg",
+      "/Images/Homepage/Habitacion2/onsen-hab-2-3.jpg",
+      "/Images/Homepage/Habitacion2/onsen-hab-2-4.jpg",
+      "/Images/Homepage/Habitacion2/onsen-hab-2-5.jpg",
     ],
   },
   {
@@ -39,7 +48,11 @@ const CARDS_INFORMATION = [
     subtitle: "Habitación Economic",
     roomDescription: "Acceso a Onsen Público",
     camas: "2 camas",
-    images: ["/Images/Homepage/onsen-economic.jpeg"],
+    images: [
+      "/Images/Homepage/Habitacion3/onsen-hab-3-1.jpg",
+      "/Images/Homepage/Habitacion3/onsen-hab-3-2.jpg",
+      "/Images/Homepage/Habitacion3/onsen-hab-3-3.jpg",
+    ],
   },
 ];
 
@@ -185,11 +198,13 @@ const SeleccionarHabitacion = ({
                     <Grid container>
                       <Grid item xs={12}>
                         <Carousel
-                          wrapMode="wrap"
-                          showArrows
-                          autoplay={true}
-                          autoplayInterval={1000}
-                          pauseOnHover={false}
+                          autoplay
+                          wrapAround
+                          adaptiveHeight
+                          dragging
+                          cellAlign="center"
+                          autoplayInterval={5000}
+                          pauseOnHover={true}
                         >
                           {element.images.map((elementImages, index) => (
                             <img

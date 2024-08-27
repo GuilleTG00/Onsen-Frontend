@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-} from "@mui/material";
-import { Carousel } from "nuka-carousel";
-
-import IconButton from "@mui/material/IconButton";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 import "../../GeneralStyles/formStyles.css";
 import TableView from "../ComponentUtils/TableView";
-
-const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
 const LISTADO_RESERVAS_ACTIVAS = [
   {
@@ -56,14 +42,11 @@ const LISTADO_RESERVAS_COMPLETADAS = [
     tipoHabitacion: "Classic",
     fechaDeCheckIn: "20-11-2023",
     fechaDeCheckOut: "24-11-2023",
-    calificacion: 5,
+    calificacion: 3,
   },
 ];
 
-const ListadoReservas = ({ startDate, endDate }) => {
-  const [fechaInicio, setFechaInicio] = useState(new Date());
-  const [fechaFinal, setFechaFinal] = useState(new Date());
-
+const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
@@ -144,7 +127,10 @@ const ListadoReservas = ({ startDate, endDate }) => {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <TableView tableData={LISTADO_RESERVAS_COMPLETADAS} />
+                <TableView
+                  tableData={LISTADO_RESERVAS_COMPLETADAS}
+                  isCalificacion={true}
+                />
               </Grid>
             </Grid>
           </Grid>

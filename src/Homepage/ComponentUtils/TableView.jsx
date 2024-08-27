@@ -12,9 +12,15 @@ import {
   TableCell,
   tableCellClasses,
   Paper,
+  Rating,
 } from "@mui/material";
-
 import { styled } from "@mui/material/styles";
+
+const parseTitlesTable = (stringToParse) => {
+  return stringToParse
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/^./, (char) => char.toUpperCase());
+};
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -72,10 +78,7 @@ const TableView = ({ tableData }) => {
                         justifyContent="center"
                       >
                         <Grid item xs={12}>
-                          <b>
-                            {key}
-                            {/*headerParser(key)*/}
-                          </b>
+                          <b>{parseTitlesTable(key)}</b>
                         </Grid>
                       </Grid>
                     </StyledTableCell>
@@ -91,19 +94,40 @@ const TableView = ({ tableData }) => {
               return (
                 <StyledTableRow key={index}>
                   {currentTableKeys.map((currentKey, innerIndex) => {
-                    return (
-                      <StyledTableCell
-                        key={index + innerIndex}
-                        index={innerIndex}
-                        style={{
-                          justifyContent: "center",
-                          textAlign: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {excelValue[currentKey]}
-                      </StyledTableCell>
-                    );
+                    if (currentKey === "calificacion") {
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={innerIndex}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Rating
+                            key={innerIndex}
+                            name="simple-controlled"
+                            value={excelValue[currentKey]}
+                            readOnly
+                          />
+                        </StyledTableCell>
+                      );
+                    } else {
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={innerIndex}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {excelValue[currentKey]}
+                        </StyledTableCell>
+                      );
+                    }
                   })}
                 </StyledTableRow>
               );

@@ -12,11 +12,6 @@ import {
   CardContent,
   CardActions,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -42,6 +37,10 @@ const DashboardPage = () => {
     jovenes: 0,
     niños: 0,
   });
+
+  const navigateListado = () => {
+    navigate("/listado-reservas");
+  };
 
   const handleChange = (type, operation) => {
     setCompanions((prev) => ({
@@ -317,15 +316,16 @@ const DashboardPage = () => {
               </CardContent>
               <CardActions style={{ borderTop: "1px solid white" }}>
                 <Grid container justifyContent="flex-end">
-                  <Grid item xs={2}>
+                  <Grid item xs={12}>
                     <Button
+                      onClick={navigateListado}
                       variant="text"
                       style={{
                         fontFamily: "Montserrat, sans-serif",
                       }}
                       color="error"
                     >
-                      <b>Ver detalles de la reserva</b>
+                      <b>Ver detalles de todas las reservas</b>
                     </Button>
                   </Grid>
                 </Grid>
