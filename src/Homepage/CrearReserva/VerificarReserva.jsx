@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import React, { useState, useEffect } from "react";
-import { Grid, Button, Toolbar, Checkbox, Typography } from "@mui/material";
+import { Grid, Button, Checkbox, Typography } from "@mui/material";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 

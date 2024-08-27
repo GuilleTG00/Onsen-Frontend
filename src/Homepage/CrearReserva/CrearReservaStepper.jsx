@@ -2,13 +2,8 @@ import React from "react";
 
 import { styled } from "@mui/material/styles";
 import DoneIcon from "@mui/icons-material/Done";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import TaskIcon from "@mui/icons-material/Task";
 import SearchIcon from "@mui/icons-material/Search";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import BugReportIcon from "@mui/icons-material/BugReport";
-import SpeedIcon from "@mui/icons-material/Speed";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 
 import { Typography } from "@mui/material";

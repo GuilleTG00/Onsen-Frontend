@@ -1,15 +1,6 @@
 import React from "react";
-import Countdown from "react-countdown";
 
-import {
-  Grid,
-  Typography,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const Completionist = () => <span>Esta reserva ha sido completada.</span>;
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {

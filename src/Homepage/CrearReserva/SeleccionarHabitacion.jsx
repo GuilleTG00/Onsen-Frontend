@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-} from "@mui/material";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 import Carousel from "nuka-carousel";
 
 import IconButton from "@mui/material/IconButton";
