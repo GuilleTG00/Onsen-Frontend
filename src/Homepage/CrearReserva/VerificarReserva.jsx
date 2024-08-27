@@ -27,13 +27,13 @@ const data = [
     extraServices: [
       {
         serviceTitle: "Jabones Especiales",
-        image: "",
+        image: "/Images/Homepage/soaps.jpg",
         priceUsd: 20,
         isAdded: false,
       },
       {
         serviceTitle: "Kit de Bienvenida",
-        image: "",
+        image: "/Images/Homepage/welcome-kit.jpg",
         priceUsd: 50,
         isAdded: false,
       },
@@ -263,7 +263,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
                                 <Grid xs={12}>
                                   <img
                                     //key={index}
-                                    src="/Images/Homepage/dogo_onsen_old_pic.jpg"
+                                    src={image}
                                     style={{
                                       height: "150px",
                                       width: "100%",
