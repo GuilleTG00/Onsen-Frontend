@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Checkbox,
+  Button,
+} from "@mui/material";
 import Carousel from "nuka-carousel";
 
 import IconButton from "@mui/material/IconButton";
@@ -54,7 +61,27 @@ const SeleccionarHabitacion = ({
   fechaFinal,
   companions,
   handleChangeStep,
+  setHabitacionData,
 }) => {
+  const [selectedHabitacion, setSelectedHabitacion] = useState(null);
+  const [selectedFullHabitacion, setSelectedFullHabitacion] = useState(null);
+  const [missingHabitacion, setMissingHabitacion] = useState(false);
+
+  const handleCheckbox = (serviceElement) => () => {
+    setSelectedFullHabitacion(serviceElement);
+    setSelectedHabitacion(serviceElement.title);
+  };
+
+  const navigateCrearReserva = () => {
+    setMissingHabitacion(false);
+    if (selectedHabitacion) {
+      setHabitacionData(selectedFullHabitacion);
+      handleChangeStep(2)();
+    } else {
+      setMissingHabitacion(true);
+    }
+  };
+
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
@@ -178,6 +205,18 @@ const SeleccionarHabitacion = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "grey",
+                textAlign: "left",
+                fontFamily: "montserrat, sans-serif",
+              }}
+            >
+              <b>Selecciona la habitación que te interese</b>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={5}
@@ -185,11 +224,18 @@ const SeleccionarHabitacion = ({
               justifyContent="space-between"
               alignItems="center"
             >
-              {CARDS_INFORMATION.map((element) => {
+              {CARDS_INFORMATION.map((element, index) => {
                 return (
                   <Grid item xs={4} key={element.title}>
                     <Grid container>
-                      <Grid item xs={12}>
+                      <Grid item xs={1}>
+                        <Checkbox
+                          checked={selectedHabitacion === element.title}
+                          onChange={handleCheckbox(element, index)}
+                          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                        />
+                      </Grid>
+                      <Grid item xs={11}>
                         <Carousel
                           autoplay
                           wrapAround
@@ -268,6 +314,56 @@ const SeleccionarHabitacion = ({
           </Grid>
         </Grid>
       </Grid>
+      {selectedHabitacion && (
+        <Grid item xs={12}>
+          <Grid
+            container
+            spacing={3}
+            justifyContent="space-between"
+            paddingInline={5}
+          >
+            <Grid item xs={12}>
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#000000",
+                  textAlign: "center",
+                  fontFamily: "montserrat, sans-serif",
+                }}
+              >
+                <b>Habitación seleccionada: </b>
+                {selectedHabitacion}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                onClick={navigateCrearReserva}
+                variant="contained"
+                style={{
+                  backgroundColor: "#a0ff99",
+                  color: "black",
+                  fontSize: "20px",
+                }}
+              >
+                <b>Verificar y Crear Reserva</b>
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      )}
+      {missingHabitacion && (
+        <Grid item xs={12} paddingTop={3}>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#8b0000",
+              textAlign: "center",
+            }}
+          >
+            <b>Por favor selecciona una habitación antes de continuar</b>
+          </Typography>
+        </Grid>
+      )}
       <Grid item xs={12}>
         <Grid
           container

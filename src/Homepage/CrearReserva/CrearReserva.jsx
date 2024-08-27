@@ -29,6 +29,7 @@ const CrearReserva = ({}) => {
   const [fechaInicio, setFechaInicio] = useState(fechaCheckInState);
   const [fechaFinal, setFechaFinal] = useState(fechaCheckOutState);
   const [companions, setCompanions] = useState(companionsState);
+  const [habitacionData, setHabitacionData] = useState(null);
 
   const handleChange = (type, operation) => {
     setCompanions((prev) => ({
@@ -66,6 +67,7 @@ const CrearReserva = ({}) => {
             fechaFinal={fechaFinal}
             companions={companions}
             handleChangeStep={handleChangeStep}
+            setHabitacionData={setHabitacionData}
           />
         );
       case 2:
@@ -74,6 +76,7 @@ const CrearReserva = ({}) => {
             fechaInicio={fechaInicio}
             fechaFinal={fechaFinal}
             companions={companions}
+            habitacionData={habitacionData}
           />
         );
     }

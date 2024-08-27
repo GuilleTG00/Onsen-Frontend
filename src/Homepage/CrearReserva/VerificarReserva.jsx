@@ -238,8 +238,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
                     {extraServices.map((servicesElement, index) => {
-                      const { serviceTitle, image, priceUsd, isAdded } =
-                        servicesElement;
+                      const { serviceTitle, image, priceUsd } = servicesElement;
                       return (
                         <Grid item xs={6} key={index}>
                           <Grid
