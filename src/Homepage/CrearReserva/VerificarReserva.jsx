@@ -1,9 +1,18 @@
 import _ from "lodash";
+import Carousel from "nuka-carousel";
 
 import React, { useState, useEffect } from "react";
 import { Grid, Button, Checkbox, Typography } from "@mui/material";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
+
+const images = [
+  "/Images/Homepage/HighClass/onsen-high-1.jpg",
+  "/Images/Homepage/HighClass/onsen-high-2.jpg",
+  "/Images/Homepage/HighClass/onsen-high-3.jpg",
+  "/Images/Homepage/HighClass/onsen-high-4.jpg",
+  "/Images/Homepage/HighClass/onsen-high-5.jpg",
+];
 
 const data = [
   {
@@ -69,7 +78,8 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
     <Grid
       container
       alignItems="center"
-      spacing={10}
+      spacing={5}
+      justifyContent="center"
       paddingBottom={10}
       style={{ color: "black" }}
     >
@@ -88,19 +98,31 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
       <Grid item xs={7}>
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12}>
-            <img
-              src="/Images/Homepage/onsen-logo.png"
-              style={{
-                height: "8%",
-                width: "8%",
-                cursor: "pointer",
-              }}
-              alt="Onsen Logo"
-            />
+            <Carousel
+              autoplay
+              wrapAround
+              adaptiveHeight
+              dragging
+              cellAlign="center"
+              autoplayInterval={5000}
+              pauseOnHover={true}
+            >
+              {images.map((elementImages, index) => (
+                <img
+                  key={index}
+                  src={elementImages}
+                  style={{
+                    height: "100vh",
+                    width: "100%",
+                  }}
+                  alt={index}
+                />
+              ))}
+            </Carousel>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={4}>
         <Grid container justifyContent="center" spacing={5}>
           {data.map((element) => {
             const { title, details, services, extraServices } = element;
@@ -214,12 +236,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Grid
-                    container
-                    padding={5}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
+                  <Grid container justifyContent="center" alignItems="center">
                     {extraServices.map((servicesElement, index) => {
                       const { serviceTitle, image, priceUsd, isAdded } =
                         servicesElement;
