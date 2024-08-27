@@ -33,8 +33,6 @@ const MainHomeRenderer = () => {
     });
   }, []);
 
-  //Función para renderizar dependiendo de la URL que se encuenre el usuario.
-
   const validateInnerComponent = () => {
     switch (parsedPathname) {
       case "home":
@@ -85,7 +83,12 @@ const MainHomeRenderer = () => {
         }}
       >
         <Toolbar>
-          <Grid container justifyContent="space-around" alignItems="center">
+          <Grid
+            container
+            paddingTop={1}
+            justifyContent="space-around"
+            alignItems="center"
+          >
             <Grid item xs={12} md={4}>
               <img
                 onClick={navigateHome}

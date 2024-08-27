@@ -3,6 +3,8 @@ import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import { Grid, Button, Toolbar, Checkbox, Typography } from "@mui/material";
 
+const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
+
 const data = [
   {
     title: "Habitación Onsen High Class",
@@ -30,7 +32,7 @@ const data = [
   },
 ];
 
-const VerificarReserva = ({}) => {
+const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
   const [values, setValues] = useState(data[0]["extraServices"]);
   const [calculatedTotal, setCalculatedTotal] = useState(0);
 
@@ -134,6 +136,37 @@ const VerificarReserva = ({}) => {
                         </Grid>
                       );
                     })}
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: "grey",
+                          textAlign: "left",
+                          fontFamily: "montserrat, sans-serif",
+                        }}
+                      >
+                        {fechaInicio
+                          ? fechaInicio.toLocaleDateString(
+                              "es-CO",
+                              DATE_OPTIONS
+                            )
+                          : ""}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: "grey",
+                          textAlign: "left",
+                          fontFamily: "montserrat, sans-serif",
+                        }}
+                      >
+                        {fechaFinal
+                          ? fechaFinal.toLocaleDateString("es-CO", DATE_OPTIONS)
+                          : ""}
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>

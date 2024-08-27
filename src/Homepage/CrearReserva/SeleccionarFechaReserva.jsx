@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import {
   Grid,
@@ -13,6 +14,8 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 
 import "../../GeneralStyles/formStyles.css";
+import AcompañantesSelection from "../ComponentUtils/AcompañantesSelection";
+import { useNavigate } from "react-router-dom";
 
 const CARDS_INFORMATION = [
   {
@@ -32,9 +35,28 @@ const CARDS_INFORMATION = [
   },
 ];
 
-const SeleccionarFechaReserva = () => {
-  const [fechaInicio, setFechaInicio] = useState(null);
-  const [fechaFinal, setFechaFinal] = useState(null);
+const SeleccionarFechaReserva = ({
+  companions,
+  handleChangeCompanions,
+  fechaInicio,
+  fechaFinal,
+  setFechaFinal,
+  setFechaInicio,
+  handleChangeStep,
+}) => {
+  const navigate = useNavigate();
+  const [errorFields, setErrorFields] = useState(false);
+
+  const handleValidationStep = () => {
+    setErrorFields(false);
+    const hasCompanions = Object.values(companions).some((count) => count > 0);
+    if (!_.isNil(fechaInicio) && !_.isNil(fechaFinal) && hasCompanions) {
+      handleChangeStep(1)();
+    } else {
+      setErrorFields(true);
+    }
+  };
+
   return (
     <Grid container spacing={5}>
       <Grid item xs={12}>
@@ -63,7 +85,7 @@ const SeleccionarFechaReserva = () => {
                             textAlign: "center",
                           }}
                         >
-                          Check-In
+                          <b>Check-In</b>
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
@@ -76,7 +98,9 @@ const SeleccionarFechaReserva = () => {
                                 ? moment(fechaInicio)
                                 : moment(new Date())
                             }
-                            onChange={(newValue) => setFechaInicio(newValue)}
+                            onChange={(newValue) =>
+                              setFechaInicio(newValue.toDate())
+                            }
                             onFocus={(e) => {
                               setFechaInicio(e.target.value);
                             }}
@@ -100,7 +124,7 @@ const SeleccionarFechaReserva = () => {
                             textAlign: "center",
                           }}
                         >
-                          Check-Out
+                          <b>Check-Out</b>
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
@@ -113,7 +137,9 @@ const SeleccionarFechaReserva = () => {
                                 ? moment(fechaFinal)
                                 : moment(new Date())
                             }
-                            onChange={(newValue) => setFechaFinal(newValue)}
+                            onChange={(newValue) =>
+                              setFechaFinal(newValue.toDate())
+                            }
                             onFocus={(e) => {
                               setFechaFinal(e.target.value);
                             }}
@@ -123,21 +149,56 @@ const SeleccionarFechaReserva = () => {
                     </Grid>
                   </Grid>
                   <Grid item xs={3}>
-                    <Button
-                      variant="contained"
-                      style={{ color: "white", backgroundColor: "black" }}
+                    <Grid
+                      container
+                      spacing={1}
+                      justifyContent="center"
+                      alignItems="center"
                     >
-                      <b>Acompañantes</b>
-                    </Button>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                          }}
+                        >
+                          <b>Acompañantes</b>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <AcompañantesSelection
+                          companions={companions}
+                          handleChange={handleChangeCompanions}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <Grid item xs={3}>
                     <Button
+                      onClick={handleValidationStep}
                       variant="contained"
                       style={{ color: "white", backgroundColor: "black" }}
                     >
                       <b>Buscar</b>
                     </Button>
                   </Grid>
+                  {errorFields && (
+                    <Grid item xs={12} paddingTop={3}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: "#8b0000",
+                          textAlign: "center",
+                        }}
+                      >
+                        <b>
+                          Hay campos incompletos necesarios para realizar la
+                          búsqueda.
+                        </b>
+                      </Typography>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

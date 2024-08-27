@@ -1,8 +1,15 @@
 import React from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import "./heroClasses.css";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const navigateDashboard = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <Grid
       container
@@ -33,6 +40,7 @@ const HeroSection = () => {
             <Grid container justifyContent="center">
               <Grid item xs={12}>
                 <Button
+                  onClick={navigateDashboard}
                   style={{
                     backgroundColor: "white",
                   }}

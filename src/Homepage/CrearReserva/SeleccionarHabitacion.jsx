@@ -43,10 +43,12 @@ const CARDS_INFORMATION = [
   },
 ];
 
-const SeleccionarHabitacion = ({ startDate, endDate }) => {
-  const [fechaInicio, setFechaInicio] = useState(new Date());
-  const [fechaFinal, setFechaFinal] = useState(new Date());
-
+const SeleccionarHabitacion = ({
+  fechaInicio,
+  fechaFinal,
+  companions,
+  handleChangeStep,
+}) => {
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
@@ -89,6 +91,7 @@ const SeleccionarHabitacion = ({ startDate, endDate }) => {
         <Grid container alignItems="center" spacing={5} paddingLeft={5}>
           <Grid item>
             <IconButton
+              onClick={handleChangeStep(0)}
               style={{
                 background: "#d9d9d9",
               }}
@@ -109,7 +112,11 @@ const SeleccionarHabitacion = ({ startDate, endDate }) => {
                     fontFamily: "montserrat, sans-serif",
                   }}
                 >
-                  <b>{fechaInicio.toLocaleDateString("es-CO", DATE_OPTIONS)}</b>
+                  <b>
+                    {fechaInicio
+                      ? fechaInicio.toLocaleDateString("es-CO", DATE_OPTIONS)
+                      : ""}
+                  </b>
                 </Typography>
               </Grid>
               <Grid item>
@@ -133,7 +140,11 @@ const SeleccionarHabitacion = ({ startDate, endDate }) => {
                     fontFamily: "montserrat, sans-serif",
                   }}
                 >
-                  <b>{fechaFinal.toLocaleDateString("es-CO", DATE_OPTIONS)}</b>
+                  <b>
+                    {fechaFinal
+                      ? fechaFinal.toLocaleDateString("es-CO", DATE_OPTIONS)
+                      : ""}
+                  </b>
                 </Typography>
               </Grid>
             </Grid>
@@ -161,12 +172,18 @@ const SeleccionarHabitacion = ({ startDate, endDate }) => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid
+              container
+              spacing={5}
+              padding={3}
+              justifyContent="space-between"
+              alignItems="center"
+            >
               {CARDS_INFORMATION.map((element) => {
                 return (
                   <Grid item xs={4} key={element.title}>
                     <Grid container>
-                      <Grid item xs={11}>
+                      <Grid item xs={12}>
                         <Carousel
                           wrapMode="wrap"
                           showArrows

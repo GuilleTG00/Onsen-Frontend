@@ -1,6 +1,9 @@
+import _ from "lodash";
 import React, { useState } from "react";
+import moment from "moment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Countdown from "react-countdown";
+
 import {
   Grid,
   Typography,
@@ -9,23 +12,69 @@ import {
   CardContent,
   CardActions,
   Button,
+  FormControl,
+  InputLabel,
+  Select,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 import SearchIcon from "@mui/icons-material/Search";
+import CountdownRenderer from "./CountdownRenderer";
+import AcompañantesSelection from "../ComponentUtils/AcompañantesSelection";
+
+import "./dashboard-styles.css";
 
 const RESERVA_DATE = new Date("06-06-2025");
 
-import "./dashboard-styles.css";
-import CountdownRenderer from "./CountdownRenderer";
-
 const DashboardPage = () => {
+  const navigate = useNavigate();
   const isSmallScreen = useMediaQuery("(max-width:800px)");
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFinal, setFechaFinal] = useState(null);
+
+  const [companions, setCompanions] = useState({
+    adultos: 1,
+    jovenes: 0,
+    niños: 0,
+  });
+
+  const handleChange = (type, operation) => {
+    setCompanions((prev) => ({
+      ...prev,
+      [type]:
+        operation === "increment"
+          ? prev[type] + 1
+          : Math.max(prev[type] - 1, 0),
+    }));
+  };
+
+  const handleNavigateReservaSearch = () => {
+    const hasCompanions = Object.values(companions).some((count) => count > 0);
+    if (!_.isNil(fechaInicio) && !_.isNil(fechaFinal) && hasCompanions) {
+      navigate("/crear-reserva", {
+        state: {
+          step: 1,
+          fechaCheckIn: fechaInicio ? fechaInicio.toDate() : "",
+          fechaCheckOut: fechaFinal ? fechaFinal.toDate() : "",
+          companions,
+        },
+      });
+    } else {
+      navigate("/crear-reserva", {
+        state: {
+          step: 0,
+          fechaCheckIn: fechaInicio ? fechaInicio.toDate() : "",
+          fechaCheckOut: fechaFinal ? fechaFinal.toDate() : "",
+          companions,
+        },
+      });
+    }
+  };
 
   return (
     <Grid container>
@@ -38,7 +87,7 @@ const DashboardPage = () => {
             backgroundSize: "100% 100%",
             backgroundPosition: "center",
             width: "100%",
-            height: "50vh",
+            height: isSmallScreen ? "100vh" : "50vh",
           }}
           justifyContent="center"
           alignItems="center"
@@ -69,8 +118,19 @@ const DashboardPage = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Grid item>
-                    <Grid container>
+                  <Grid item xs={6} md={3}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                          }}
+                        >
+                          <b>Check-In</b>
+                        </Typography>
+                      </Grid>
                       <Grid item xs={12}>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <DatePicker
@@ -85,14 +145,24 @@ const DashboardPage = () => {
                             onFocus={(e) => {
                               setFechaInicio(e.target.value);
                             }}
-                            //onBlur={handleBlur}
                           />
                         </LocalizationProvider>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item>
-                    <Grid container>
+                  <Grid item xs={6} md={3}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                          }}
+                        >
+                          <b>Check-Out</b>
+                        </Typography>
+                      </Grid>
                       <Grid item xs={12}>
                         <LocalizationProvider dateAdapter={AdapterMoment}>
                           <DatePicker
@@ -107,16 +177,50 @@ const DashboardPage = () => {
                             onFocus={(e) => {
                               setFechaFinal(e.target.value);
                             }}
-                            //onBlur={handleBlur}
                           />
                         </LocalizationProvider>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item>
-                    <Grid container>
+                  <Grid item xs={6} md={3}>
+                    <Grid container spacing={2} justifyContent="center">
                       <Grid item xs={12}>
-                        <IconButton onClick={() => {}} edge="end">
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                          }}
+                        >
+                          <b>Acompañantes</b>
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <AcompañantesSelection
+                          companions={companions}
+                          handleChange={handleChange}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={6} md={3}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "#000000",
+                            textAlign: "center",
+                          }}
+                        >
+                          <b>Buscar</b>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <IconButton
+                          onClick={handleNavigateReservaSearch}
+                          edge="end"
+                        >
                           <SearchIcon
                             style={{
                               fontSize: "40px",

@@ -92,14 +92,19 @@ const MainHomeRenderer = () => {
         }}
       >
         <Toolbar>
-          <Grid container justifyContent="space-around" alignItems="center">
+          <Grid
+            container
+            paddingTop={1}
+            justifyContent="space-around"
+            alignItems="center"
+          >
             <Grid item xs={2}>
               <img
                 onClick={navigateHome}
                 src="/Images/Homepage/onsen-logo.png"
                 style={{
-                  height: "40px",
-                  width: "40px",
+                  height: "50px",
+                  width: "50px",
                   cursor: "pointer",
                 }}
                 alt="Onsen Logo"
