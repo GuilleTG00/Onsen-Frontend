@@ -1,48 +1,49 @@
-import React, { useState, useEffect } from "react";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  Tooltip,
-  IconButton,
-  tableCellClasses,
-  Paper,
-  Grid,
-  Button,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-} from "@mui/material";
-
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import React, { useState } from "react";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 import "../../GeneralStyles/formStyles.css";
 import TableView from "../ComponentUtils/TableView";
-
-const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
+import ModalEditarInventario from "./Modals/ModalEditarInventario";
 
 const LISTADO_INVENTARIO = [
   {
     nombreProducto: "Jabones Especiales",
     cantidad: 50,
+    image: "/Images/Homepage/soaps.jpg",
     inventario: true,
   },
   {
     nombreProducto: "Kit de Bienvenida",
     cantidad: 50,
+    image: "/Images/Homepage/welcome-kit.jpg",
     inventario: true,
   },
 ];
 
-const ListadoInventario = ({ startDate, endDate }) => {
-  const [fechaInicio, setFechaInicio] = useState(new Date());
-  const [fechaFinal, setFechaFinal] = useState(new Date());
-  const [listadoInventario, setListadoInventario] =
-    useState(LISTADO_INVENTARIO);
+const ListadoInventario = () => {
+  const [listadoInventario, setListadoInventario] = useState(LISTADO_INVENTARIO);
+  const [selectedInventario, setSelectedInventario] = useState(null);
+
+  const updateSelectedInventario = (param, selectedData) => {
+    handleFilterInventario(param, selectedData);
+  };
+
+  const handleFilterInventario = (param, productoEditar) => {
+    const updatedListadoInventario = LISTADO_INVENTARIO.map((element) => {
+      if (element["nombreProducto"] === productoEditar) {
+        return {
+          ...element,
+          cantidad: param,
+        };
+      }
+      return element;
+    });
+    setListadoInventario(updatedListadoInventario);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedInventario(null);
+  };
 
   return (
     <Grid container justifyContent="center" spacing={10}>
@@ -111,12 +112,22 @@ const ListadoInventario = ({ startDate, endDate }) => {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <TableView tableData={listadoInventario} />
+                <TableView
+                  tableData={listadoInventario}
+                  setSelectedInventario={setSelectedInventario}
+                />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      {selectedInventario && (
+        <ModalEditarInventario
+          selectedInventario={selectedInventario}
+          updateSelectedInventario={updateSelectedInventario}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
     </Grid>
   );
 };

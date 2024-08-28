@@ -13,8 +13,11 @@ import {
   tableCellClasses,
   Paper,
   Rating,
+  Button,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+
+import EditIcon from "@mui/icons-material/Edit";
 
 const parseTitlesTable = (stringToParse) => {
   return stringToParse
@@ -42,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TableView = ({ tableData }) => {
+const TableView = ({ tableData, setSelectedInventario }) => {
   const [currentTableKeys, setCurrentTableKeys] = useState(null);
 
   useEffect(() => {
@@ -66,6 +69,9 @@ const TableView = ({ tableData }) => {
           <TableRow>
             {!_.isEmpty(currentTableKeys) && !_.isNil(currentTableKeys)
               ? currentTableKeys.map((key, index) => {
+                  if (key === "image") {
+                    return null;
+                  }
                   return (
                     <StyledTableCell
                       key={index}
@@ -96,7 +102,31 @@ const TableView = ({ tableData }) => {
               return (
                 <StyledTableRow key={index}>
                   {currentTableKeys.map((currentKey, innerIndex) => {
-                    if (currentKey === "calificacion") {
+                    if (currentKey === "image") {
+                      return null;
+                    }
+                    if (currentKey === "inventario") {
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={innerIndex}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                            color: "black",
+                          }}
+                        >
+                          <Button
+                            onClick={() => setSelectedInventario(excelValue)}
+                            variant="contained"
+                            className="button-text"
+                          >
+                            <EditIcon />
+                          </Button>
+                        </StyledTableCell>
+                      );
+                    } else if (currentKey === "calificacion") {
                       return (
                         <StyledTableCell
                           key={index + innerIndex}

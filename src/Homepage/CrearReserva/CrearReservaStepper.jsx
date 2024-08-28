@@ -2,8 +2,6 @@ import React from "react";
 
 import { styled } from "@mui/material/styles";
 import DoneIcon from "@mui/icons-material/Done";
-import TaskIcon from "@mui/icons-material/Task";
-import SearchIcon from "@mui/icons-material/Search";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import BedroomChildIcon from "@mui/icons-material/BedroomChild";

@@ -46,7 +46,7 @@ const LISTADO_RESERVAS_COMPLETADAS = [
   },
 ];
 
-const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
+const ListadoReservas = () => {
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
