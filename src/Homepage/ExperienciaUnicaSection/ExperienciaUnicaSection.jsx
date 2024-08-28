@@ -34,6 +34,7 @@ const ExperienciaUnicaSection = () => {
               sx={{
                 color: "#000000",
                 textAlign: "center",
+                fontFamily: "montserrat, sans-serif",
               }}
             >
               Vive una experiencia <b>única</b>
@@ -46,6 +47,7 @@ const ExperienciaUnicaSection = () => {
               sx={{
                 color: "#000000",
                 textAlign: "justify",
+                fontFamily: "montserrat, sans-serif",
               }}
             >
               Sea para darte un escape, relajarte o visitar uno de los lugares

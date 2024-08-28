@@ -21,6 +21,7 @@ const LugarHistoriaSection = () => {
               sx={{
                 color: "#000000",
                 textAlign: "center",
+                fontFamily: "montserrat, sans-serif",
               }}
             >
               Un lugar con <b>historia</b>
@@ -33,6 +34,7 @@ const LugarHistoriaSection = () => {
               sx={{
                 color: "#000000",
                 textAlign: "justify",
+                fontFamily: "montserrat, sans-serif",
               }}
             >
               Creado aproximadamente en el año 1894 (Período Meiji), es

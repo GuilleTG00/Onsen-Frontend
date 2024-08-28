@@ -59,10 +59,11 @@ const CardsSection = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography
-                      variant="h2"
+                      variant="h3"
                       sx={{
                         color: "#000000",
                         textAlign: "center",
+                        fontFamily: "montserrat, sans-serif",
                       }}
                     >
                       {element.title}

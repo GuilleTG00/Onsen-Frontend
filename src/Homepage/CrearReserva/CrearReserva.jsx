@@ -77,6 +77,7 @@ const CrearReserva = ({}) => {
             fechaFinal={fechaFinal}
             companions={companions}
             habitacionData={habitacionData}
+            handleChangeStep={handleChangeStep}
           />
         );
     }

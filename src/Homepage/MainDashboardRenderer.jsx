@@ -67,6 +67,10 @@ const MainHomeRenderer = () => {
     navigate("/home");
   };
 
+  const navigateDashboard = () => {
+    navigate("/dashboard");
+  };
+
   const navigateCrearReserva = () => {
     navigate("/crear-reserva");
   };
@@ -122,7 +126,7 @@ const MainHomeRenderer = () => {
                   </Button>
                   {["listado-reservas"].includes(parsedPathname) && (
                     <Divider
-                      stlye={{
+                      style={{
                         background: "#68b9ff",
                         borderBottomWidth: 3,
                       }}
@@ -133,9 +137,22 @@ const MainHomeRenderer = () => {
                   <Button onClick={navigateHome} variant="text">
                     <b className="button-text">INICIO</b>
                   </Button>
+                  {["home"].includes(parsedPathname) && (
+                    <Divider
+                      style={{
+                        background: "#68b9ff",
+                        borderBottomWidth: 3,
+                      }}
+                    />
+                  )}
+                </Grid>
+                <Grid item>
+                  <Button onClick={navigateDashboard} variant="text">
+                    <b className="button-text">Dashboard</b>
+                  </Button>
                   {["dashboard"].includes(parsedPathname) && (
                     <Divider
-                      stlye={{
+                      style={{
                         background: "#68b9ff",
                         borderBottomWidth: 3,
                       }}
@@ -150,15 +167,15 @@ const MainHomeRenderer = () => {
                   >
                     <b className="button-text">Crear Reserva</b>
                   </Button>
+                  {["crear-reserva"].includes(parsedPathname) && (
+                    <Divider
+                      style={{
+                        background: "#68b9ff",
+                        borderBottomWidth: 3,
+                      }}
+                    />
+                  )}
                 </Grid>
-                {["crear-reserva"].includes(parsedPathname) && (
-                  <Divider
-                    stlye={{
-                      background: "#68b9ff",
-                      borderBottomWidth: 3,
-                    }}
-                  />
-                )}
                 <Grid item>
                   <Button
                     onClick={handleLogout}

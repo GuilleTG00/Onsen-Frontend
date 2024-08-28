@@ -2,7 +2,10 @@ import _ from "lodash";
 import Carousel from "nuka-carousel";
 
 import React, { useState, useEffect } from "react";
-import { Grid, Button, Checkbox, Typography } from "@mui/material";
+import { Grid, Button, Checkbox, Typography, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
@@ -41,7 +44,9 @@ const data = [
   },
 ];
 
-const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
+const VerificarReserva = ({ fechaInicio, fechaFinal, handleChangeStep }) => {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState(data[0]["extraServices"]);
   const [calculatedTotal, setCalculatedTotal] = useState(0);
 
@@ -50,6 +55,10 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
       .filter((service) => service.isAdded)
       .reduce((sum, service) => sum + service.priceUsd, 0);
     return data[0]["totalCalculated"] + extraServicesTotal;
+  };
+
+  const navigateListado = () => {
+    navigate("/listado-reservas");
   };
 
   const handleCheckbox = (servicesElement, index) => (value) => {
@@ -78,7 +87,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
     <Grid
       container
       alignItems="center"
-      spacing={5}
+      spacing={2}
       justifyContent="center"
       paddingBottom={10}
       style={{ color: "black" }}
@@ -95,8 +104,72 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
           <b>Habitación Seleccionada</b>
         </Typography>
       </Grid>
+      <Grid item xs={12}>
+        <Grid container alignItems="center" spacing={5} paddingLeft={5}>
+          <Grid item>
+            <IconButton
+              onClick={handleChangeStep(1)}
+              style={{
+                background: "#d9d9d9",
+              }}
+              color="error"
+              size="large"
+            >
+              <ArrowBackIcon style={{ fontSize: "30px" }} />
+            </IconButton>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#000000",
+                    textAlign: "center",
+                    fontFamily: "montserrat, sans-serif",
+                  }}
+                >
+                  <b>
+                    {fechaInicio
+                      ? fechaInicio.toLocaleDateString("es-CO", DATE_OPTIONS)
+                      : ""}
+                  </b>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#000000",
+                    textAlign: "center",
+                    fontFamily: "montserrat, sans-serif",
+                  }}
+                >
+                  <b>-</b>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#000000",
+                    textAlign: "center",
+                    fontFamily: "montserrat, sans-serif",
+                  }}
+                >
+                  <b>
+                    {fechaFinal
+                      ? fechaFinal.toLocaleDateString("es-CO", DATE_OPTIONS)
+                      : ""}
+                  </b>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
       <Grid item xs={7}>
-        <Grid container justifyContent="center" alignItems="center">
+        <Grid container justifyContent="center" alignItems="flex-start">
           <Grid item xs={12}>
             <Carousel
               autoplay
@@ -261,7 +334,6 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
                               >
                                 <Grid xs={12}>
                                   <img
-                                    //key={index}
                                     src={image}
                                     style={{
                                       height: "150px",
@@ -318,7 +390,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal }) => {
           })}
           <Grid item xs={12}>
             <Button
-              //onClick={navigateDashboard}
+              onClick={navigateListado}
               variant="contained"
               style={{
                 backgroundColor: "#a0ff99",

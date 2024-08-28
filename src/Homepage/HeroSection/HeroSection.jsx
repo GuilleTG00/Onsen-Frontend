@@ -31,6 +31,7 @@ const HeroSection = () => {
                 color: "#000000",
                 textAlign: "center",
                 letterSpacing: "20px",
+                fontFamily: "montserrat, sans-serif",
               }}
             >
               DOGO ONSEN
@@ -52,6 +53,7 @@ const HeroSection = () => {
                       color: "#000000",
                       textAlign: "center",
                       letterSpacing: "1px",
+                      fontFamily: "montserrat, sans-serif",
                     }}
                   >
                     Reserva Aquí

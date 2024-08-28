@@ -71,7 +71,7 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
             >
               <Grid item xs={12}>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   sx={{
                     color: "#000000",
                     textAlign: "center",
@@ -89,7 +89,8 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
         <Grid
           container
           padding={5}
-          spacing={5}
+          paddingTop={0}
+          spacing={10}
           justifyContent="center"
           alignItems="center"
         >
@@ -97,7 +98,7 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
             <Grid container justifyContent="center" alignItems="center">
               <Grid item xs={12}>
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   sx={{
                     color: "#000000",
                     textAlign: "center",
@@ -116,7 +117,7 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
             <Grid container>
               <Grid item xs={12}>
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   sx={{
                     color: "#000000",
                     textAlign: "center",

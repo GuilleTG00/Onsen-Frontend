@@ -22,6 +22,7 @@ const ChihiroMessage = () => {
           sx={{
             color: "#000000",
             textAlign: "center",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           <b>¡Te esperamos pronto!</b>

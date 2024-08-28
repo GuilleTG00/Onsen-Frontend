@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
+    fontSize: 15,
   },
 }));
 
@@ -78,7 +78,9 @@ const TableView = ({ tableData }) => {
                         justifyContent="center"
                       >
                         <Grid item xs={12}>
-                          <b>{parseTitlesTable(key)}</b>
+                          <b style={{ fontFamily: "montserrat, sans-serif" }}>
+                            {parseTitlesTable(key)}
+                          </b>
                         </Grid>
                       </Grid>
                     </StyledTableCell>
@@ -122,6 +124,7 @@ const TableView = ({ tableData }) => {
                             justifyContent: "center",
                             textAlign: "center",
                             alignItems: "center",
+                            fontFamily: "montserrat, sans-serif",
                           }}
                         >
                           {excelValue[currentKey]}

@@ -11,6 +11,7 @@ const UbicacionSection = () => {
           sx={{
             color: "#000000",
             textAlign: "center",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           <b>Ubicación</b>
