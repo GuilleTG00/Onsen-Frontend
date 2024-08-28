@@ -23,7 +23,7 @@ const MainHomeRenderer = () => {
   const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
   const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("loggedIn")
+    localStorage.getItem("isLoggedIn")
   );
 
   useEffect(() => {

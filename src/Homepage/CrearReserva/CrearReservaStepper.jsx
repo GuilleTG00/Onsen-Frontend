@@ -5,6 +5,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import TaskIcon from "@mui/icons-material/Task";
 import SearchIcon from "@mui/icons-material/Search";
 import ChecklistIcon from "@mui/icons-material/Checklist";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import BedroomChildIcon from "@mui/icons-material/BedroomChild";
 
 import { Typography } from "@mui/material";
 
@@ -70,8 +72,8 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState, index }) => ({
 const StepperColor = (props) => {
   const { active, completed, className, index } = props;
   const icons = {
-    1: <SearchIcon style={{ color: active ? "black" : "grey" }} />,
-    2: <TaskIcon style={{ color: active ? "black" : "grey" }} />,
+    1: <DateRangeIcon style={{ color: active ? "black" : "grey" }} />,
+    2: <BedroomChildIcon style={{ color: active ? "black" : "grey" }} />,
     3: <ChecklistIcon style={{ color: active ? "black" : "grey" }} />,
   };
 
@@ -106,7 +108,6 @@ const CrearReservaStepper = ({ activeStep, handleChangeStep }) => {
             StepIconComponent={(props) => (
               <StepperColor {...props} index={index} />
             )}
-            onClick={handleChangeStep(index)}
           >
             <Typography
               variant="h6"

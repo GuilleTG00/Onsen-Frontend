@@ -95,7 +95,12 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
           alignItems="center"
         >
           <Grid item xs={12}>
-            <Grid container justifyContent="center" alignItems="center">
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Grid item xs={12}>
                 <Typography
                   variant="h4"
@@ -114,7 +119,7 @@ const ListadoReservas = ({ fechaInicio, fechaFinal }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography
                   variant="h4"

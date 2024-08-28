@@ -25,12 +25,10 @@ const VerificarReserva = ({
     const daysDifference = timeDifference / (1000 * 3600 * 24);
     return daysDifference;
   };
-  console.log(values);
   const handleTotal = () => {
     const extraServicesTotal = values
       .filter((service) => service.isAdded)
       .reduce((sum, service) => sum + service.priceUsd, 0);
-    console.log(extraServicesTotal);
     return data[0]["precioDia"] * calculateDiasEntre() + extraServicesTotal;
   };
 
