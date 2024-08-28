@@ -18,67 +18,45 @@ import {
   Typography,
 } from "@mui/material";
 
-import {} from "@mui/material";
-
-import { styled } from "@mui/material/styles";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#939393",
-    color: theme.palette.common.black,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-import { Carousel } from "nuka-carousel";
-
-import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import "../../GeneralStyles/formStyles.css";
+import TableView from "../ComponentUtils/TableView";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
-const LISTADO_RESERVAS_ACTIVAS = [
+const LISTADO_INVENTARIO = [
   {
     nombreProducto: "Jabones Especiales",
     cantidad: 50,
+    inventario: true,
   },
   {
     nombreProducto: "Kit de Bienvenida",
     cantidad: 50,
+    inventario: true,
   },
 ];
 
 const ListadoInventario = ({ startDate, endDate }) => {
   const [fechaInicio, setFechaInicio] = useState(new Date());
   const [fechaFinal, setFechaFinal] = useState(new Date());
+  const [listadoInventario, setListadoInventario] =
+    useState(LISTADO_INVENTARIO);
 
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
         <Card
           style={{
-            background: "url(/Images/Homepage/dogo_onsen_hero_1.png)",
+            background:
+              "linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)),url(/Images/Homepage/soaps.jpg)",
             backgroundPosition: "center",
-            backgroundSize: "100% 100%",
+            backgroundSize: "100% 140%",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
             position: "relative",
             fontFamily: "Montserrat, sans-serif",
-            backgroundColor: "rgba(255, 254, 254, 0.8)",
           }}
         >
           <CardContent>
@@ -105,9 +83,21 @@ const ListadoInventario = ({ startDate, endDate }) => {
         </Card>
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={5} justifyContent="center" alignItems="center">
+        <Grid
+          container
+          padding={5}
+          paddingTop={0}
+          spacing={10}
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid item xs={12}>
-            <Grid container justifyContent="center" alignItems="center">
+            <Grid
+              container
+              spacing={3}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Grid item xs={12}>
                 <Typography
                   variant="h5"
@@ -120,7 +110,9 @@ const ListadoInventario = ({ startDate, endDate }) => {
                   <b>Inventario</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}></Grid>
+              <Grid item xs={12}>
+                <TableView tableData={listadoInventario} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

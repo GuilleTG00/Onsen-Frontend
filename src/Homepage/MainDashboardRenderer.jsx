@@ -10,6 +10,7 @@ import SignupPage from "../Register/SignUpPage";
 import DashboardPage from "./Dashboard/DashboardPage";
 import CrearReserva from "./CrearReserva/CrearReserva";
 import ListadoReservas from "./ListadoReservas/ListadoReservas";
+import ListadoInventario from "./ListadoInventario/ListadoInventario";
 
 const TITLES = [
   "Homepage",
@@ -24,6 +25,7 @@ const MainHomeRenderer = () => {
   const parsedPathname = pathname.replace("/", "");
   const navigate = useNavigate();
   const [selectedView, setSelectedView] = useState(parsedPathname);
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("isAdmin"));
 
   useEffect(() => {
     setSelectedView(parsedPathname);
@@ -48,6 +50,8 @@ const MainHomeRenderer = () => {
         return <DashboardPage />;
       case "listado-reservas":
         return <ListadoReservas />;
+      case "listado-inventario":
+        return <ListadoInventario />;
       default:
         return <HomeContainer />;
     }
@@ -73,6 +77,10 @@ const MainHomeRenderer = () => {
 
   const navigateCrearReserva = () => {
     navigate("/crear-reserva");
+  };
+
+  const navigateListadoInventario = () => {
+    navigate("/listado-inventario");
   };
 
   const handleLogout = () => {
@@ -133,6 +141,27 @@ const MainHomeRenderer = () => {
                     />
                   )}
                 </Grid>
+                {isAdmin && (
+                  <>
+                    <Grid item>
+                      <Button
+                        onClick={navigateListadoInventario}
+                        variant="text"
+                        className="button-text"
+                      >
+                        <b className="button-text">Listado Inventario</b>
+                      </Button>
+                      {["listado-inventario"].includes(parsedPathname) && (
+                        <Divider
+                          style={{
+                            background: "#68b9ff",
+                            borderBottomWidth: 3,
+                          }}
+                        />
+                      )}
+                    </Grid>
+                  </>
+                )}
                 <Grid item>
                   <Button onClick={navigateHome} variant="text">
                     <b className="button-text">INICIO</b>
