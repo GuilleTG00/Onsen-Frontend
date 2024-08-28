@@ -22,6 +22,27 @@ const CARDS_INFORMATION = [
     subtitle: "Habitación Premium",
     roomDescription: "Onsen Privado",
     camas: "5 camas",
+    precioDia: 225,
+    details: ["Habitación Premium", "Onsen Privado", "5 camas"],
+    services: [
+      "Guia turistica sobre la historia del Onsen",
+      "Desayuno incluido",
+      "Servicios de recomendaciones turísticas",
+    ],
+    extraServices: [
+      {
+        serviceTitle: "Jabones Especiales",
+        image: "/Images/Homepage/soaps.jpg",
+        priceUsd: 20,
+        isAdded: false,
+      },
+      {
+        serviceTitle: "Kit de Bienvenida",
+        image: "/Images/Homepage/welcome-kit.jpg",
+        priceUsd: 50,
+        isAdded: false,
+      },
+    ],
     images: [
       "/Images/Homepage/HighClass/onsen-high-1.jpg",
       "/Images/Homepage/HighClass/onsen-high-2.jpg",
@@ -35,6 +56,27 @@ const CARDS_INFORMATION = [
     subtitle: "Habitación Classic",
     roomDescription: "Onsen Privado",
     camas: "3 camas",
+    precioDia: 175,
+    details: ["Habitación Classic", "Onsen Privado", "3 camas"],
+    services: [
+      "Guia turistica sobre la historia del Onsen",
+      "Desayuno incluido",
+      "Servicios de recomendaciones turísticas",
+    ],
+    extraServices: [
+      {
+        serviceTitle: "Jabones Especiales",
+        image: "/Images/Homepage/soaps.jpg",
+        priceUsd: 20,
+        isAdded: false,
+      },
+      {
+        serviceTitle: "Kit de Bienvenida",
+        image: "/Images/Homepage/welcome-kit.jpg",
+        priceUsd: 50,
+        isAdded: false,
+      },
+    ],
     images: [
       "/Images/Homepage/Habitacion2/onsen-hab-2-1.jpg",
       "/Images/Homepage/Habitacion2/onsen-hab-2-2.jpg",
@@ -48,6 +90,27 @@ const CARDS_INFORMATION = [
     subtitle: "Habitación Economic",
     roomDescription: "Acceso a Onsen Público",
     camas: "2 camas",
+    precioDia: 125,
+    details: ["Habitación Classic", "Onsen Publico", "2 camas"],
+    services: [
+      "Guia turistica sobre la historia del Onsen",
+      "Desayuno incluido",
+      "Servicios de recomendaciones turísticas",
+    ],
+    extraServices: [
+      {
+        serviceTitle: "Jabones Especiales",
+        image: "/Images/Homepage/soaps.jpg",
+        priceUsd: 20,
+        isAdded: false,
+      },
+      {
+        serviceTitle: "Kit de Bienvenida",
+        image: "/Images/Homepage/welcome-kit.jpg",
+        priceUsd: 50,
+        isAdded: false,
+      },
+    ],
     images: [
       "/Images/Homepage/Habitacion3/onsen-hab-3-1.jpg",
       "/Images/Homepage/Habitacion3/onsen-hab-3-2.jpg",
@@ -80,6 +143,20 @@ const SeleccionarHabitacion = ({
     } else {
       setMissingHabitacion(true);
     }
+  };
+
+  const parseDiasString = (dateStr) => {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.toLocaleString("en-US", { month: "short" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  const calculateDiasEntre = () => {
+    const timeDifference = fechaFinal.getTime() - fechaInicio.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+    return daysDifference;
   };
 
   return (
@@ -185,13 +262,7 @@ const SeleccionarHabitacion = ({
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Grid
-          container
-          paddingLeft={5}
-          paddingTop={0}
-          spacing={3}
-          justifyContent="center"
-        >
+        <Grid container paddingLeft={5} spacing={1} justifyContent="center">
           <Grid item xs={12}>
             <Typography
               variant="h4"
@@ -228,14 +299,14 @@ const SeleccionarHabitacion = ({
                 return (
                   <Grid item xs={4} key={element.title}>
                     <Grid container>
-                      <Grid item xs={1}>
+                      <Grid item xs={12}>
                         <Checkbox
                           checked={selectedHabitacion === element.title}
                           onChange={handleCheckbox(element, index)}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                         />
                       </Grid>
-                      <Grid item xs={11}>
+                      <Grid item xs={12}>
                         <Carousel
                           autoplay
                           wrapAround
@@ -274,8 +345,8 @@ const SeleccionarHabitacion = ({
                         <Typography
                           variant="h6"
                           sx={{
-                            color: "#000000",
-                            textAlign: "left",
+                            color: "grey",
+                            textAlign: "justify",
                             fontFamily: "montserrat, sans-serif",
                           }}
                         >
@@ -286,8 +357,8 @@ const SeleccionarHabitacion = ({
                         <Typography
                           variant="h6"
                           sx={{
-                            color: "#000000",
-                            textAlign: "left",
+                            color: "grey",
+                            textAlign: "justify",
                             fontFamily: "montserrat, sans-serif",
                           }}
                         >
@@ -298,12 +369,40 @@ const SeleccionarHabitacion = ({
                         <Typography
                           variant="h6"
                           sx={{
-                            color: "#000000",
-                            textAlign: "left",
+                            color: "grey",
+                            textAlign: "justify",
                             fontFamily: "montserrat, sans-serif",
                           }}
                         >
                           {element.camas}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            color: "grey",
+                            textAlign: "justify",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {calculateDiasEntre()} día(s) |{" "}
+                          {parseDiasString(fechaInicio)} a{" "}
+                          {parseDiasString(fechaFinal)}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: "grey",
+                            textAlign: "justify",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          <b>
+                            $ {calculateDiasEntre() * element.precioDia} USD*
+                          </b>
                         </Typography>
                       </Grid>
                     </Grid>

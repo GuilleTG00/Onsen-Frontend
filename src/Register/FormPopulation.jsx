@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -14,7 +15,9 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const FormPopulation = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [showValidationPassword, setShowValidationPassword] = useState(false);
   const [formFields, setFormFields] = useState({
     username: "",
     password: "",
@@ -39,8 +42,17 @@ const FormPopulation = () => {
     }
   };
 
+  const handleSignUp = () => {
+    localStorage.setItem("isLoggedIn", true);
+    navigate("/dashboard");
+  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleClickShowValidationPassword = () => {
+    setShowValidationPassword(!showValidationPassword);
   };
 
   return (
@@ -57,6 +69,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Nombre de Usuario
@@ -83,6 +96,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Email
@@ -109,6 +123,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Nombre
@@ -135,6 +150,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Apellidos
@@ -161,6 +177,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Tipo de Identificación
@@ -187,6 +204,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Num. de Identificación
@@ -214,6 +232,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Contraseña
@@ -252,6 +271,7 @@ const FormPopulation = () => {
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Confirmar Contraseña
@@ -263,7 +283,7 @@ const FormPopulation = () => {
           id="password"
           name="password"
           onChange={handleFormFields("password", false)}
-          type={showPassword ? "text" : "password"}
+          type={showValidationPassword ? "text" : "password"}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" className="text-primary">
@@ -274,11 +294,14 @@ const FormPopulation = () => {
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  //onClick={handleClickShowPassword}
-                  //onMouseDown={handleMouseDownPassword}
                   edge="end"
+                  onClick={handleClickShowValidationPassword}
                 >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  {showValidationPassword ? (
+                    <VisibilityOffIcon />
+                  ) : (
+                    <VisibilityIcon />
+                  )}
                 </IconButton>
               </InputAdornment>
             ),
@@ -287,11 +310,12 @@ const FormPopulation = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container paddingTop={3} justifyContent="flex-end">
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <Button
               style={{
                 backgroundColor: "#a2fe99",
               }}
+              onClick={handleSignUp}
               variant="contained"
             >
               <Typography
@@ -300,6 +324,7 @@ const FormPopulation = () => {
                   color: "#000000",
                   textAlign: "center",
                   letterSpacing: "1px",
+                  fontFamily: "montserrat, sans-serif",
                 }}
               >
                 Reserva Aquí

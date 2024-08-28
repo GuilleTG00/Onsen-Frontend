@@ -7,14 +7,17 @@ import {
   InputAdornment,
   IconButton,
   Typography,
+  Button,
 } from "@mui/material";
 
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useNavigate } from "react-router-dom";
 
 const FormPopulation = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formFields, setFormFields] = useState({
     username: "",
@@ -35,7 +38,10 @@ const FormPopulation = () => {
     }
   };
 
-  const handleUsername = () => {};
+  const handleLogin = () => {
+    localStorage.setItem("isLoggedIn", true);
+    navigate("/dashboard");
+  };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -43,15 +49,16 @@ const FormPopulation = () => {
 
   return (
     <Grid container spacing={2} paddingTop={10} justifyContent="center">
-      <Grid item xs={8}>
+      <Grid item xs={10}>
         <Typography
           variant="p"
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
-          Nombre de Usuario
+          Nombre de Usuario / Email
         </Typography>
       </Grid>
       <Grid item xs={10}>
@@ -70,12 +77,13 @@ const FormPopulation = () => {
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={10}>
         <Typography
           variant="p"
           fontSize="20px"
           sx={{
             color: "#000000",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Contraseña
@@ -108,6 +116,31 @@ const FormPopulation = () => {
             ),
           }}
         />
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container paddingTop={3} justifyContent="flex-end">
+          <Grid item xs={5}>
+            <Button
+              style={{
+                backgroundColor: "#a2fe99",
+              }}
+              onClick={handleLogin}
+              variant="contained"
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "#000000",
+                  textAlign: "center",
+                  letterSpacing: "1px",
+                  fontFamily: "montserrat, sans-serif",
+                }}
+              >
+                Ingresa Aquí
+              </Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

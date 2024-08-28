@@ -9,52 +9,29 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
-const images = [
-  "/Images/Homepage/HighClass/onsen-high-1.jpg",
-  "/Images/Homepage/HighClass/onsen-high-2.jpg",
-  "/Images/Homepage/HighClass/onsen-high-3.jpg",
-  "/Images/Homepage/HighClass/onsen-high-4.jpg",
-  "/Images/Homepage/HighClass/onsen-high-5.jpg",
-];
-
-const data = [
-  {
-    title: "Habitación Onsen High Class",
-    details: ["Habitación Premium", "Onsen Privado", "5 camas"],
-    services: [
-      "Guia turistica sobre la historia del Onsen",
-      "Desayuno incluido",
-      "Servicios de recomendaciones turísticas",
-    ],
-    totalCalculated: 900,
-    extraServices: [
-      {
-        serviceTitle: "Jabones Especiales",
-        image: "/Images/Homepage/soaps.jpg",
-        priceUsd: 20,
-        isAdded: false,
-      },
-      {
-        serviceTitle: "Kit de Bienvenida",
-        image: "/Images/Homepage/welcome-kit.jpg",
-        priceUsd: 50,
-        isAdded: false,
-      },
-    ],
-  },
-];
-
-const VerificarReserva = ({ fechaInicio, fechaFinal, handleChangeStep }) => {
+const VerificarReserva = ({
+  fechaInicio,
+  fechaFinal,
+  handleChangeStep,
+  habitacionData,
+}) => {
   const navigate = useNavigate();
 
-  const [values, setValues] = useState(data[0]["extraServices"]);
+  const [values, setValues] = useState(habitacionData["extraServices"]);
   const [calculatedTotal, setCalculatedTotal] = useState(0);
-
+  const [data, setData] = useState([habitacionData]);
+  const calculateDiasEntre = () => {
+    const timeDifference = fechaFinal.getTime() - fechaInicio.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+    return daysDifference;
+  };
+  console.log(values);
   const handleTotal = () => {
     const extraServicesTotal = values
       .filter((service) => service.isAdded)
       .reduce((sum, service) => sum + service.priceUsd, 0);
-    return data[0]["totalCalculated"] + extraServicesTotal;
+    console.log(extraServicesTotal);
+    return data[0]["precioDia"] * calculateDiasEntre() + extraServicesTotal;
   };
 
   const navigateListado = () => {
@@ -180,7 +157,7 @@ const VerificarReserva = ({ fechaInicio, fechaFinal, handleChangeStep }) => {
               autoplayInterval={5000}
               pauseOnHover={true}
             >
-              {images.map((elementImages, index) => (
+              {data[0]["images"].map((elementImages, index) => (
                 <img
                   key={index}
                   src={elementImages}

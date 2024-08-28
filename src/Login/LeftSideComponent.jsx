@@ -28,6 +28,7 @@ const LeftSideComponent = () => {
             color: "#000000",
             textAlign: "center",
             letterSpacing: "20px",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           DOGO ONSEN
@@ -40,6 +41,7 @@ const LeftSideComponent = () => {
             color: "#000000",
             textAlign: "center",
             fontSize: "40px",
+            fontFamily: "montserrat, sans-serif",
           }}
         >
           Ingresa a una

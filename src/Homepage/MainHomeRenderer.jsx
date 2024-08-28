@@ -22,7 +22,9 @@ const MainHomeRenderer = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const parsedPathname = pathname.replace("/", "");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("loggedIn")
+  );
 
   useEffect(() => {
     WebFont.load({
@@ -93,8 +95,8 @@ const MainHomeRenderer = () => {
                 onClick={navigateHome}
                 src="/Images/Homepage/onsen-logo.png"
                 style={{
-                  height: "50px",
-                  width: "50px",
+                  height: "35px",
+                  width: "35px",
                   cursor: "pointer",
                 }}
                 alt="Onsen Logo"
