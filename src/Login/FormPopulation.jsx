@@ -1,6 +1,7 @@
 import "../GeneralStyles/formStyles.css";
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   TextField,
@@ -10,11 +11,12 @@ import {
   Button,
 } from "@mui/material";
 
+import { loginAPI } from "../APICalls";
+
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate } from "react-router-dom";
 
 const FormPopulation = () => {
   const navigate = useNavigate();
@@ -38,9 +40,19 @@ const FormPopulation = () => {
     }
   };
 
-  const handleLogin = () => {
-    localStorage.setItem("isLoggedIn", true);
-    navigate("/dashboard");
+  const handleLogin = async () => {
+    const validationResult = await loginAPI(
+      formFields["username"],
+      formFields["password"]
+    );
+    const { status, data } = validationResult;
+    if (status === 200) {
+      const { access_token, username } = data;
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("username", username);
+      navigate("/dashboard");
+    }
   };
 
   const handleClickShowPassword = () => {
