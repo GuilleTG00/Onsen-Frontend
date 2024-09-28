@@ -1,49 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 import "../../GeneralStyles/formStyles.css";
 import TableView from "../ComponentUtils/TableView";
 import ModalEditarInventario from "./Modals/ModalEditarInventario";
 
-const LISTADO_INVENTARIO = [
-  {
-    nombreProducto: "Jabones Especiales",
-    cantidad: 50,
-    image: "/Images/Homepage/soaps.jpg",
-    inventario: true,
-  },
-  {
-    nombreProducto: "Kit de Bienvenida",
-    cantidad: 50,
-    image: "/Images/Homepage/welcome-kit.jpg",
-    inventario: true,
-  },
-];
+import {
+  getListadoInventarioAPI,
+  actualizarElementoInventarioAPI,
+} from "../../APICalls";
 
 const ListadoInventario = () => {
-  const [listadoInventario, setListadoInventario] = useState(LISTADO_INVENTARIO);
+  const [listadoInventario, setListadoInventario] = useState(null);
   const [selectedInventario, setSelectedInventario] = useState(null);
 
-  const updateSelectedInventario = (param, selectedData) => {
-    handleFilterInventario(param, selectedData);
+  const handleAPICallListado = async () => {
+    const { status, data } = await getListadoInventarioAPI(
+      localStorage.getItem("token")
+    );
+    if (status === 200) {
+      setListadoInventario(data);
+    }
   };
 
-  const handleFilterInventario = (param, productoEditar) => {
-    const updatedListadoInventario = LISTADO_INVENTARIO.map((element) => {
-      if (element["nombreProducto"] === productoEditar) {
-        return {
-          ...element,
-          cantidad: param,
-        };
-      }
-      return element;
-    });
-    setListadoInventario(updatedListadoInventario);
+  const handleAPICallUpdateInventario = async (
+    nombreProducto,
+    cantidad,
+    id
+  ) => {
+    const { status } = await actualizarElementoInventarioAPI(
+      localStorage.getItem("token"),
+      nombreProducto,
+      cantidad,
+      id
+    );
+    if (status === 200) {
+      handleAPICallListado();
+    }
+  };
+
+  const updateSelectedInventario = (id, nombreProducto, cantidad) => {
+    handleAPICallUpdateInventario(nombreProducto, cantidad, id);
   };
 
   const handleCloseModal = () => {
     setSelectedInventario(null);
   };
+
+  useEffect(() => {
+    handleAPICallListado();
+  }, []);
 
   return (
     <Grid container justifyContent="center" spacing={10}>
@@ -111,12 +117,14 @@ const ListadoInventario = () => {
                   <b>Inventario</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <TableView
-                  tableData={listadoInventario}
-                  setSelectedInventario={setSelectedInventario}
-                />
-              </Grid>
+              {listadoInventario && (
+                <Grid item xs={12}>
+                  <TableView
+                    tableData={listadoInventario}
+                    setSelectedInventario={setSelectedInventario}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

@@ -6,6 +6,7 @@ import { Grid, Button, Checkbox, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getListadoInventarioAPI } from "../../APICalls";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
@@ -17,9 +18,22 @@ const VerificarReserva = ({
 }) => {
   const navigate = useNavigate();
 
-  const [values, setValues] = useState(habitacionData["extraServices"]);
   const [calculatedTotal, setCalculatedTotal] = useState(0);
   const [data, setData] = useState([habitacionData]);
+  const [listadoInventario, setListadoInventario] = useState(null);
+  const [selectedInventario, setSelectedInventario] = useState(null);
+  const [values, setValues] = useState(listadoInventario);
+
+  const handleAPICallListado = async () => {
+    const { status, data } = await getListadoInventarioAPI(
+      localStorage.getItem("token")
+    );
+    if (status === 200) {
+      setListadoInventario(data);
+      setValues(listadoInventario);
+    }
+  };
+
   const calculateDiasEntre = () => {
     const timeDifference = fechaFinal.getTime() - fechaInicio.getTime();
     const daysDifference = timeDifference / (1000 * 3600 * 24);
@@ -28,7 +42,7 @@ const VerificarReserva = ({
   const handleTotal = () => {
     const extraServicesTotal = values
       .filter((service) => service.isAdded)
-      .reduce((sum, service) => sum + service.priceUsd, 0);
+      .reduce((sum, service) => sum + service.precio, 0);
     return data[0]["precioDia"] * calculateDiasEntre() + extraServicesTotal;
   };
 
@@ -57,6 +71,10 @@ const VerificarReserva = ({
       setCalculatedTotal(calculatedTotal);
     }
   }, [values]);
+
+  useEffect(() => {
+    handleAPICallListado();
+  }, []);
 
   return (
     <Grid
@@ -253,7 +271,7 @@ const VerificarReserva = ({
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container justifyContent="center">
-                    {services.map((servicesElement) => {
+                    {extraServices.map((servicesElement) => {
                       return (
                         <Grid item xs={12} key={servicesElement}>
                           <Typography
@@ -285,67 +303,77 @@ const VerificarReserva = ({
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" alignItems="center">
-                    {extraServices.map((servicesElement, index) => {
-                      const { serviceTitle, image, priceUsd } = servicesElement;
-                      return (
-                        <Grid item xs={6} key={index}>
-                          <Grid
-                            container
-                            justifyContent="center"
-                            alignItems="center"
-                          >
-                            <Grid item xs={6}>
-                              <Checkbox
-                                {...serviceTitle}
-                                onClick={handleCheckbox(servicesElement, index)}
-                                sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                              />
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Grid
-                                container
-                                justifyContent="center"
-                                alignItems="center"
-                              >
-                                <Grid xs={12}>
-                                  <img
-                                    src={image}
-                                    style={{
-                                      height: "150px",
-                                      width: "100%",
-                                    }}
-                                  />
-                                </Grid>
-                                <Grid xs={12}>
-                                  <Typography
-                                    variant="h5"
-                                    sx={{
-                                      color: "#000000",
-                                      textAlign: "center",
-                                      fontFamily: "montserrat, sans-serif",
-                                    }}
-                                  >
-                                    <b>{serviceTitle}</b>
-                                  </Typography>
-                                </Grid>
-                                <Grid xs={12}>
-                                  <Typography
-                                    variant="h5"
-                                    sx={{
-                                      color: "grey",
-                                      textAlign: "center",
-                                      fontFamily: "montserrat, sans-serif",
-                                    }}
-                                  >
-                                    + {priceUsd} USD
-                                  </Typography>
+                    {listadoInventario ? (
+                      listadoInventario.map((servicesElement, index) => {
+                        const { nombreProducto, image, precio } =
+                          servicesElement;
+                        return (
+                          <Grid item xs={6} key={index}>
+                            <Grid
+                              container
+                              justifyContent="center"
+                              alignItems="center"
+                            >
+                              <Grid item xs={6}>
+                                <Checkbox
+                                  {...nombreProducto}
+                                  onClick={handleCheckbox(
+                                    servicesElement,
+                                    index
+                                  )}
+                                  sx={{
+                                    "& .MuiSvgIcon-root": { fontSize: 28 },
+                                  }}
+                                />
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Grid
+                                  container
+                                  justifyContent="center"
+                                  alignItems="center"
+                                >
+                                  <Grid xs={12}>
+                                    <img
+                                      src={image}
+                                      style={{
+                                        height: "150px",
+                                        width: "100%",
+                                      }}
+                                    />
+                                  </Grid>
+                                  <Grid xs={12}>
+                                    <Typography
+                                      variant="h5"
+                                      sx={{
+                                        color: "#000000",
+                                        textAlign: "center",
+                                        fontFamily: "montserrat, sans-serif",
+                                      }}
+                                    >
+                                      <b>{nombreProducto}</b>
+                                    </Typography>
+                                  </Grid>
+                                  <Grid xs={12}>
+                                    <Typography
+                                      variant="h5"
+                                      sx={{
+                                        color: "grey",
+                                        textAlign: "center",
+                                        fontFamily: "montserrat, sans-serif",
+                                      }}
+                                    >
+                                      + {precio} USD
+                                    </Typography>
+                                  </Grid>
                                 </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
-                      );
-                    })}
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>

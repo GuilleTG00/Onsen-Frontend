@@ -35,7 +35,6 @@ export const createUser = async (
 };
 
 export const loginAPI = async (email, password) => {
-  console.log(email, password);
   const returnCall = await fetch(`${API_URLS.LOGIN_URL}`, {
     body: new URLSearchParams({
       username: email,
@@ -178,15 +177,17 @@ export const crearElementoInventarioAPI = async (
 export const actualizarElementoInventarioAPI = async (
   token,
   nombreProducto,
-  cantidad
+  cantidad,
+  id
 ) => {
   const returnCall = await fetch(
-    `${API_URLS.ACTUALIZAR_ELEMENTO_INVENTARIO_URL}`,
+    `${API_URLS.ACTUALIZAR_ELEMENTO_INVENTARIO_URL}?${new URLSearchParams({
+      token,
+      nombreProducto,
+      cantidad,
+      id,
+    })}`,
     {
-      body: JSON.stringify({
-        nombreProducto,
-        cantidad,
-      }),
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -207,6 +208,25 @@ export const actualizarElementoInventarioAPI = async (
 
 export const getListadoInventarioAPI = async (token) => {
   const returnCall = await fetch(`${API_URLS.GET_LISTADO_INVENTARIO_URL}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) =>
+      response.json().then((data) => ({ status: response.status, data: data }))
+    )
+    .catch((error) => {
+      return { detail: error, status: "ERROR" };
+    });
+  return returnCall;
+};
+
+export const getListadoHabitaciones = async (token) => {
+  const returnCall = await fetch(`${API_URLS.GET_LISTADO_HABITACIONES_URL}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

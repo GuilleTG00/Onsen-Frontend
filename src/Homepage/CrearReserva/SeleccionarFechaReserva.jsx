@@ -10,6 +10,8 @@ import "../../GeneralStyles/formStyles.css";
 import AcompañantesSelection from "../ComponentUtils/AcompañantesSelection";
 import { useNavigate } from "react-router-dom";
 
+import { getListadoHabitaciones } from "../../APICalls";
+
 const CARDS_INFORMATION = [
   {
     title: "“Habitación Onsen High Class”",
@@ -37,8 +39,17 @@ const SeleccionarFechaReserva = ({
   setFechaInicio,
   handleChangeStep,
 }) => {
-  const navigate = useNavigate();
   const [errorFields, setErrorFields] = useState(false);
+  const [habitacionesData, setHabitacionesData] = useState(null);
+
+  const handleListadoHabitaciones = async () => {
+    const { status, data } = await getListadoHabitaciones(
+      localStorage.getItem("token")
+    );
+    if (status === 200) {
+      setHabitacionesData(data);
+    }
+  };
 
   const handleValidationStep = () => {
     setErrorFields(false);
@@ -49,6 +60,10 @@ const SeleccionarFechaReserva = ({
       setErrorFields(true);
     }
   };
+
+  useEffect(() => {
+    handleListadoHabitaciones();
+  }, []);
 
   return (
     <Grid container spacing={5}>
@@ -214,48 +229,52 @@ const SeleccionarFechaReserva = ({
           </Grid>
           <Grid item xs={12}>
             <Grid container justifyContent="space-between" alignItems="center">
-              {CARDS_INFORMATION.map((element) => {
-                return (
-                  <Grid item xs={4} key={element.title}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <img
-                          src={element.image}
-                          style={{
-                            height: "300px",
-                            width: "400px",
-                          }}
-                          alt={element.title}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          <b>{element.title}</b>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          {element.subtitle}
-                        </Typography>
+              {habitacionesData ? (
+                habitacionesData.map((element) => {
+                  return (
+                    <Grid item xs={4} key={element.title}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <img
+                            src={element.images[0]}
+                            style={{
+                              height: "300px",
+                              width: "400px",
+                            }}
+                            alt={element.title}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: "#000000",
+                              textAlign: "center",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            <b>{element.title}</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "#000000",
+                              textAlign: "center",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {element.subtitle}
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </Grid>
           </Grid>
         </Grid>

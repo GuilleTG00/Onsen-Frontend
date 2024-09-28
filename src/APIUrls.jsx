@@ -13,6 +13,10 @@ export const API_URLS = {
 
   //Inventario
   CREAR_ELEMENTO_INVENTARIO_URL: `${URL_SERVER}/api/v1/inventario/crear-elemento-inventario`,
-  ACTUALIZAR_ELEMENTO_INVENTARIO_URL: `${URL_SERVER}/api/v1/inventario/actualizar-elemento-inventario`,
+  ACTUALIZAR_ELEMENTO_INVENTARIO_URL: `${URL_SERVER}/api/v1/inventario/actualizar-elemento-inventario-by-id`,
   GET_LISTADO_INVENTARIO_URL: `${URL_SERVER}/api/v1/inventario/get-listado-inventario`,
+
+  // Habitaciones
+  CREAR_HABITACION_URL: `${URL_SERVER}/api/v1/habitaciones/crear-habitacion`,
+  GET_LISTADO_HABITACIONES_URL: `${URL_SERVER}/api/v1/habitaciones/get-listado-habitaciones`,
 };

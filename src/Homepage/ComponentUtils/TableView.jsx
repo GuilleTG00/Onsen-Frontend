@@ -72,6 +72,12 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                   if (key === "image") {
                     return null;
                   }
+                  if (key === "habitacionData") {
+                    return null;
+                  }
+                  if (key === "serviciosEspeciales") {
+                    return null;
+                  }
                   return (
                     <StyledTableCell
                       key={index}
@@ -103,6 +109,12 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                 <StyledTableRow key={index}>
                   {currentTableKeys.map((currentKey, innerIndex) => {
                     if (currentKey === "image") {
+                      return null;
+                    }
+                    if (currentKey === "habitacionData") {
+                      return null;
+                    }
+                    if (currentKey === "serviciosEspeciales") {
                       return null;
                     }
                     if (currentKey === "inventario") {

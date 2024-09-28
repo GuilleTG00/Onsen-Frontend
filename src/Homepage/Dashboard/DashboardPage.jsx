@@ -1,8 +1,9 @@
 import _ from "lodash";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Countdown from "react-countdown";
+import { getLastReservaAPI } from "../../APICalls";
 
 import {
   Grid,
@@ -31,6 +32,7 @@ const DashboardPage = () => {
   const isSmallScreen = useMediaQuery("(max-width:800px)");
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFinal, setFechaFinal] = useState(null);
+  const [currentReserva, setCurrentReserva] = useState(null);
 
   const [companions, setCompanions] = useState({
     adultos: 1,
@@ -40,6 +42,15 @@ const DashboardPage = () => {
 
   const navigateListado = () => {
     navigate("/listado-reservas");
+  };
+
+  const handleAPICall = async () => {
+    const { status, data } = await getLastReservaAPI(
+      localStorage.getItem("token")
+    );
+    if (status === 200) {
+      setCurrentReserva(data);
+    }
   };
 
   const handleChange = (type, operation) => {
@@ -74,6 +85,10 @@ const DashboardPage = () => {
       });
     }
   };
+
+  useEffect(() => {
+    handleAPICall();
+  }, []);
 
   return (
     <Grid container>
@@ -250,88 +265,183 @@ const DashboardPage = () => {
               <b>Tu próxima reserva:</b>
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            paddingLeft={isSmallScreen ? 0 : 10}
-            paddingRight={isSmallScreen ? 0 : 10}
-            paddingBottom={isSmallScreen ? 0 : 10}
-          >
-            <Card style={{ backgroundColor: "#d9d9d9" }}>
-              <CardContent>
+          {currentReserva ? (
+            currentReserva.map((element, key) => {
+              const {
+                habitacionData,
+                fechaDeCheckIn,
+                acompañantes,
+                serviciosEspeciales,
+                total,
+              } = element;
+              const { title, details, images } = habitacionData;
+              return (
                 <Grid
-                  container
-                  alignItems="center"
-                  justifyContent="space-between"
+                  item
+                  xs={12}
+                  key={key}
+                  paddingLeft={isSmallScreen ? 0 : 10}
+                  paddingRight={isSmallScreen ? 0 : 10}
+                  paddingBottom={isSmallScreen ? 0 : 10}
                 >
-                  <Grid item xs={12} md={4}>
-                    <Grid
-                      container
-                      style={{
-                        background:
-                          "linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)),url(/Images/Homepage/luxury-onsen-ryokan_4.jpg)",
-                        backgroundSize: "100% 100%",
-                        backgroundPosition: "center",
-                        width: "100%",
-                        height: "30vh",
-                      }}
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontFamily: "Montserrat, sans-serif",
-                          }}
-                        >
-                          <b>Habitación Onsen High Class</b>
-                        </Typography>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontFamily: "Montserrat, sans-serif",
-                          }}
-                        >
-                          <b>Habitación tipo premium</b>
-                        </Typography>
+                  <Card style={{ backgroundColor: "#d9d9d9" }}>
+                    <CardContent>
+                      <Grid
+                        container
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Grid item xs={12} md={4}>
+                          <Grid
+                            container
+                            style={{
+                              background: `linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)),url(${images[0]})`,
+                              backgroundSize: "100% 100%",
+                              backgroundPosition: "center",
+                              width: "100%",
+                              height: "30vh",
+                            }}
+                            justifyContent="center"
+                            alignItems="center"
+                          >
+                            <Grid item xs={12}>
+                              <Typography
+                                variant="h4"
+                                sx={{
+                                  color: "#000000",
+                                  textAlign: "center",
+                                  fontFamily: "Montserrat, sans-serif",
+                                }}
+                              >
+                                <b>{title}</b>
+                              </Typography>
+                              <Grid container>
+                                {details.map((elementDetails) => {
+                                  return (
+                                    <Grid item xs={12} key={elementDetails}>
+                                      <Typography
+                                        variant="h6"
+                                        sx={{
+                                          color: "#000000",
+                                          textAlign: "center",
+                                          fontFamily: "Montserrat, sans-serif",
+                                        }}
+                                      >
+                                        <b>{elementDetails}</b>
+                                      </Typography>
+                                    </Grid>
+                                  );
+                                })}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item xs={12} md={8} paddingLeft={3}>
+                          <Grid
+                            container
+                            spacing={5}
+                            justifyContent="space-evenly"
+                          >
+                            <Grid item xs={12}>
+                              <Typography
+                                variant="h5"
+                                sx={{
+                                  color: "#000000",
+                                  textAlign: "center",
+                                  fontFamily: "Montserrat, sans-serif",
+                                }}
+                              >
+                                <b>Tiempo hasta la reserva</b>
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Countdown
+                                date={fechaDeCheckIn}
+                                renderer={CountdownRenderer}
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Grid container justifyContent="center">
+                                <Grid item xs={6}>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#000000",
+                                      textAlign: "center",
+                                      fontFamily: "Montserrat, sans-serif",
+                                    }}
+                                  >
+                                    <b>Fecha de Check In:</b> {fechaDeCheckIn}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#000000",
+                                      textAlign: "center",
+                                      fontFamily: "Montserrat, sans-serif",
+                                    }}
+                                  >
+                                    <b>Acompañantes:</b> {acompañantes}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#000000",
+                                      textAlign: "center",
+                                      fontFamily: "Montserrat, sans-serif",
+                                    }}
+                                  >
+                                    <b>Servicios:</b>{" "}
+                                    {!_.isEmpty(serviciosEspeciales)
+                                      ? serviciosEspeciales.join(", ")
+                                      : "No hay servicios"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#000000",
+                                      textAlign: "center",
+                                      fontFamily: "Montserrat, sans-serif",
+                                    }}
+                                  >
+                                    <b>Total:</b> {total} USD
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12} md={8} paddingLeft={3}>
-                    <Grid container justifyContent="space-evenly">
-                      <Grid item xs={12}>
-                        <Countdown
-                          date={RESERVA_DATE}
-                          renderer={CountdownRenderer}
-                        />
+                    </CardContent>
+                    <CardActions style={{ borderTop: "1px solid white" }}>
+                      <Grid container justifyContent="flex-end">
+                        <Grid item xs={12}>
+                          <Button
+                            onClick={navigateListado}
+                            variant="text"
+                            style={{
+                              fontFamily: "Montserrat, sans-serif",
+                            }}
+                            color="error"
+                          >
+                            <b>Ver detalles de todas las reservas</b>
+                          </Button>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Grid>
+                    </CardActions>
+                  </Card>
                 </Grid>
-              </CardContent>
-              <CardActions style={{ borderTop: "1px solid white" }}>
-                <Grid container justifyContent="flex-end">
-                  <Grid item xs={12}>
-                    <Button
-                      onClick={navigateListado}
-                      variant="text"
-                      style={{
-                        fontFamily: "Montserrat, sans-serif",
-                      }}
-                      color="error"
-                    >
-                      <b>Ver detalles de todas las reservas</b>
-                    </Button>
-                  </Grid>
-                </Grid>
-              </CardActions>
-            </Card>
-          </Grid>
+              );
+            })
+          ) : (
+            <></>
+          )}
         </Grid>
       </Grid>
     </Grid>

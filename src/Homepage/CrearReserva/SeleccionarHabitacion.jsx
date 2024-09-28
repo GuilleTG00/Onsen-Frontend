@@ -13,6 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import "../../GeneralStyles/formStyles.css";
+import { getListadoHabitaciones } from "../../APICalls";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
@@ -129,6 +130,16 @@ const SeleccionarHabitacion = ({
   const [selectedHabitacion, setSelectedHabitacion] = useState(null);
   const [selectedFullHabitacion, setSelectedFullHabitacion] = useState(null);
   const [missingHabitacion, setMissingHabitacion] = useState(false);
+  const [habitacionesData, setHabitacionesData] = useState(null);
+
+  const handleListadoHabitaciones = async () => {
+    const { status, data } = await getListadoHabitaciones(
+      localStorage.getItem("token")
+    );
+    if (status === 200) {
+      setHabitacionesData(data);
+    }
+  };
 
   const handleCheckbox = (serviceElement) => () => {
     setSelectedFullHabitacion(serviceElement);
@@ -158,6 +169,10 @@ const SeleccionarHabitacion = ({
     const daysDifference = timeDifference / (1000 * 3600 * 24);
     return daysDifference;
   };
+
+  useEffect(() => {
+    handleListadoHabitaciones();
+  }, []);
 
   return (
     <Grid container justifyContent="center" spacing={10}>
@@ -295,120 +310,139 @@ const SeleccionarHabitacion = ({
               justifyContent="space-between"
               alignItems="center"
             >
-              {CARDS_INFORMATION.map((element, index) => {
-                return (
-                  <Grid item xs={4} key={element.title}>
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <Checkbox
-                          checked={selectedHabitacion === element.title}
-                          onChange={handleCheckbox(element, index)}
-                          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Carousel
-                          autoplay
-                          wrapAround
-                          adaptiveHeight
-                          dragging
-                          cellAlign="center"
-                          autoplayInterval={5000}
-                          pauseOnHover={true}
-                        >
-                          {element.images.map((elementImages, index) => (
-                            <img
-                              key={index}
-                              src={elementImages}
-                              style={{
-                                height: "350px",
-                                width: "100%",
-                              }}
-                              alt={element.title + index}
-                            />
-                          ))}
-                        </Carousel>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            color: "#000000",
-                            textAlign: "center",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          <b>{element.title}</b>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "grey",
-                            textAlign: "justify",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          {element.subtitle}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "grey",
-                            textAlign: "justify",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          {element.roomDescription}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "grey",
-                            textAlign: "justify",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          {element.camas}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            color: "grey",
-                            textAlign: "justify",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          {calculateDiasEntre()} día(s) |{" "}
-                          {parseDiasString(fechaInicio)} a{" "}
-                          {parseDiasString(fechaFinal)}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            color: "grey",
-                            textAlign: "justify",
-                            fontFamily: "montserrat, sans-serif",
-                          }}
-                        >
-                          <b>
-                            $ {calculateDiasEntre() * element.precioDia} USD*
-                          </b>
-                        </Typography>
+              {habitacionesData ? (
+                habitacionesData.map((element, index) => {
+                  return (
+                    <Grid item xs={4} key={element.title}>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Checkbox
+                            checked={selectedHabitacion === element.title}
+                            onChange={handleCheckbox(element, index)}
+                            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Carousel
+                            autoplay
+                            wrapAround
+                            adaptiveHeight
+                            dragging
+                            cellAlign="center"
+                            autoplayInterval={5000}
+                            pauseOnHover={true}
+                          >
+                            {element.images.map((elementImages, index) => (
+                              <img
+                                key={index}
+                                src={elementImages}
+                                style={{
+                                  height: "350px",
+                                  width: "100%",
+                                }}
+                                alt={element.title + index}
+                              />
+                            ))}
+                          </Carousel>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: "#000000",
+                              textAlign: "center",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            <b>{element.title}</b>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {element.subtitle}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {element.roomDescription}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {element.camas}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {companions.adultos +
+                              companions.jovenes +
+                              companions.niños}{" "}
+                            Acompañantes
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            {calculateDiasEntre()} día(s) |{" "}
+                            {parseDiasString(fechaInicio)} a{" "}
+                            {parseDiasString(fechaFinal)}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              color: "grey",
+                              textAlign: "justify",
+                              fontFamily: "montserrat, sans-serif",
+                            }}
+                          >
+                            <b>
+                              $ {calculateDiasEntre() * element.precioDia} USD*
+                            </b>
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </Grid>
           </Grid>
         </Grid>

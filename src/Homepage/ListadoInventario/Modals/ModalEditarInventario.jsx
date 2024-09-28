@@ -29,10 +29,8 @@ const ModalEditarInventario = ({
   };
 
   const callUpdateSelectInventario = () => {
-    updateSelectedInventario(
-      updatedValue,
-      selectedInventario["nombreProducto"]
-    );
+    const { id, nombreProducto } = selectedInventario;
+    updateSelectedInventario(id, nombreProducto, updatedValue);
     handleCloseModal();
   };
 

@@ -3,50 +3,37 @@ import { Grid, Card, CardContent, Typography } from "@mui/material";
 import "../../GeneralStyles/formStyles.css";
 import TableView from "../ComponentUtils/TableView";
 
-const LISTADO_RESERVAS_ACTIVAS = [
-  {
-    fechaDeReserva: "02-06-2024",
-    nombreHabitacion: "“Habitación Onsen High Class”",
-    tipoHabitacion: "Premium",
-    fechaDeCheckIn: "12-12-2024",
-    fechaDeCheckOut: "16-12-2024",
-  },
-  {
-    fechaDeReserva: "02-06-2024",
-    nombreHabitacion: "“Habitación 2”",
-    tipoHabitacion: "Classic",
-    fechaDeCheckIn: "10-07-2024",
-    fechaDeCheckOut: "12-07-2024",
-  },
-  {
-    fechaDeReserva: "02-06-2024",
-    nombreHabitacion: "“Habitación 3”",
-    tipoHabitacion: "Economic",
-    fechaDeCheckIn: "12-10-2024",
-    fechaDeCheckOut: "15-10-2024",
-  },
-];
-
-const LISTADO_RESERVAS_COMPLETADAS = [
-  {
-    fechaDeReserva: "01-01-2024",
-    nombreHabitacion: "“Habitación Onsen High Class”",
-    tipoHabitacion: "Premium",
-    fechaDeCheckIn: "12-01-2024",
-    fechaDeCheckOut: "16-01-2024",
-    calificacion: 5,
-  },
-  {
-    fechaDeReserva: "02-06-2024",
-    nombreHabitacion: "“Habitación 2”",
-    tipoHabitacion: "Classic",
-    fechaDeCheckIn: "20-11-2023",
-    fechaDeCheckOut: "24-11-2023",
-    calificacion: 3,
-  },
-];
+import { getReservaPorEstadoAPI } from "../../APICalls";
 
 const ListadoReservas = () => {
+  const [reservasActivas, setReservasActivas] = useState(null);
+  const [reservasCompletas, setReservasCompletas] = useState(null);
+
+  const getListadoInventarioActivo = async () => {
+    const { status, data } = await getReservaPorEstadoAPI(
+      localStorage.getItem("token"),
+      "activo"
+    );
+    if (status === 200) {
+      setReservasActivas(data);
+    }
+  };
+
+  const getListadoInventarioCompletado = async () => {
+    const { status, data } = await getReservaPorEstadoAPI(
+      localStorage.getItem("token"),
+      "completado"
+    );
+    if (status === 200) {
+      setReservasCompletas(data);
+    }
+  };
+
+  useEffect(() => {
+    getListadoInventarioActivo();
+    getListadoInventarioCompletado();
+  }, []);
+
   return (
     <Grid container justifyContent="center" spacing={10}>
       <Grid item xs={12}>
@@ -113,9 +100,11 @@ const ListadoReservas = () => {
                   <b>Reservas Activas</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <TableView tableData={LISTADO_RESERVAS_ACTIVAS} />
-              </Grid>
+              {reservasActivas && (
+                <Grid item xs={12}>
+                  <TableView tableData={reservasActivas} />
+                </Grid>
+              )}
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -132,12 +121,14 @@ const ListadoReservas = () => {
                   <b>Reservas Completadas</b>
                 </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <TableView
-                  tableData={LISTADO_RESERVAS_COMPLETADAS}
-                  isCalificacion={true}
-                />
-              </Grid>
+              {reservasCompletas && (
+                <Grid item xs={12}>
+                  <TableView
+                    tableData={reservasCompletas}
+                    isCalificacion={true}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
