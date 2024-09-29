@@ -14,10 +14,18 @@ import {
   Paper,
   Rating,
   Button,
+  Tooltip,
+  IconButton,
+  Snackbar,
+  Alert,
+  AlertTitle,
+  Chip,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import EditIcon from "@mui/icons-material/Edit";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const parseTitlesTable = (stringToParse) => {
   return stringToParse
@@ -47,6 +55,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const TableView = ({ tableData, setSelectedInventario }) => {
   const [currentTableKeys, setCurrentTableKeys] = useState(null);
+  const [copiedClipboard, setCopiedClipboard] = useState(false);
+
+  const checkColorStatusChip = (status) => {
+    switch (status) {
+      case "completado":
+        return "#adf2ad";
+      case "activo":
+        return "#faff7f";
+      default:
+        return "#faff7f";
+    }
+  };
+
+  const handleOpenTIDValue = (TID) => () => {
+    navigator.clipboard
+      .writeText(TID)
+      .then(() => {
+        setCopiedClipboard(true);
+      })
+      .catch((error) => {
+        setCopiedClipboard(false);
+      });
+  };
+
+  const handleCloseCopiedValue = () => {
+    setCopiedClipboard(false);
+  };
 
   useEffect(() => {
     setCurrentTableKeys(Object.keys(tableData[0]));
@@ -72,11 +107,29 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                   if (key === "image") {
                     return null;
                   }
-                  if (key === "habitacionData") {
+                  if (key === "habitacionId") {
                     return null;
                   }
-                  if (key === "serviciosEspeciales") {
-                    return null;
+                  if (key === "habitacionData") {
+                    return (
+                      <StyledTableCell
+                        key={index}
+                        index={key + index}
+                        style={{ textAlign: "center" }}
+                      >
+                        <Grid
+                          container
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <Grid item xs={12}>
+                            <b style={{ fontFamily: "montserrat, sans-serif" }}>
+                              {parseTitlesTable("Habitacion")}
+                            </b>
+                          </Grid>
+                        </Grid>
+                      </StyledTableCell>
+                    );
                   }
                   return (
                     <StyledTableCell
@@ -111,11 +164,104 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                     if (currentKey === "image") {
                       return null;
                     }
-                    if (currentKey === "habitacionData") {
+                    if (currentKey === "habitacionId") {
                       return null;
                     }
+                    if (currentKey === "estado") {
+                      return (
+                        <StyledTableCell key={index}>
+                          <Chip
+                            style={{
+                              backgroundColor: checkColorStatusChip(
+                                excelValue[currentKey]
+                              ),
+                            }}
+                            label={<b>{excelValue[currentKey]}</b>}
+                          />
+                        </StyledTableCell>
+                      );
+                    }
+                    if (currentKey === "id") {
+                      return (
+                        <StyledTableCell
+                          key={index}
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          <Tooltip
+                            title={
+                              <>
+                                <b>{excelValue[currentKey]}</b>
+                              </>
+                            }
+                            arrow
+                            placement="top"
+                          >
+                            <IconButton
+                              onClick={handleOpenTIDValue(
+                                excelValue[currentKey]
+                              )}
+                              edge="end"
+                              color="primary"
+                            >
+                              <ContentCopyIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </StyledTableCell>
+                      );
+                    }
+                    if (currentKey === "habitacionData") {
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={index}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {excelValue[currentKey]?.["title"]}
+                        </StyledTableCell>
+                      );
+                    }
                     if (currentKey === "serviciosEspeciales") {
-                      return null;
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={index}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {!_.isEmpty(excelValue[currentKey])
+                            ? excelValue[currentKey]
+                                .map((element) => element.nombreProducto)
+                                .join(", ")
+                            : "No hay servicios"}
+                        </StyledTableCell>
+                      );
+                    }
+                    if (currentKey.includes("fecha")) {
+                      return (
+                        <StyledTableCell
+                          key={index + innerIndex}
+                          index={index}
+                          style={{
+                            justifyContent: "center",
+                            textAlign: "center",
+                            alignItems: "center",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {new Date(excelValue[currentKey]).toDateString()}
+                        </StyledTableCell>
+                      );
                     }
                     if (currentKey === "inventario") {
                       return (
@@ -153,7 +299,9 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                             key={innerIndex}
                             name="simple-controlled"
                             value={excelValue[currentKey]}
-                            readOnly
+                            readOnly={
+                              excelValue["estado"] === "activo" ? false : true
+                            }
                           />
                         </StyledTableCell>
                       );
@@ -179,6 +327,21 @@ const TableView = ({ tableData, setSelectedInventario }) => {
             })}
         </TableBody>
       </Table>
+      <Snackbar
+        open={copiedClipboard}
+        autoHideDuration={5000}
+        onClose={handleCloseCopiedValue}
+      >
+        <Alert
+          severity="success"
+          icon={<CheckCircleOutlineIcon fontSize="inherit" />}
+        >
+          <AlertTitle>
+            <strong>El ID de la reserva se ha copiado al portapapeles.</strong>
+          </AlertTitle>
+        </Alert>
+             
+      </Snackbar>
     </TableContainer>
   );
 };

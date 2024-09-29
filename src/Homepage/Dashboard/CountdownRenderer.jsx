@@ -2,7 +2,17 @@ import React from "react";
 
 import { Grid, Typography } from "@mui/material";
 
-const Completionist = () => <span>Esta reserva ha sido completada.</span>;
+const Completionist = () => (
+  <Typography
+    variant="h5"
+    style={{
+      fontFamily: "Montserrat, sans-serif",
+      color: "black",
+    }}
+  >
+    <b>Esta reserva ha sido completada.</b>
+  </Typography>
+);
 const CountdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
   // Renderer callback with condition
   if (completed) {

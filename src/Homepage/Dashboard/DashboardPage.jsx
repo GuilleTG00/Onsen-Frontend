@@ -25,8 +25,6 @@ import AcompañantesSelection from "../ComponentUtils/AcompañantesSelection";
 
 import "./dashboard-styles.css";
 
-const RESERVA_DATE = new Date("06-06-2025");
-
 const DashboardPage = () => {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery("(max-width:800px)");
@@ -270,6 +268,7 @@ const DashboardPage = () => {
               const {
                 habitacionData,
                 fechaDeCheckIn,
+                fechaDeCheckOut,
                 acompañantes,
                 serviciosEspeciales,
                 total,
@@ -361,7 +360,11 @@ const DashboardPage = () => {
                               />
                             </Grid>
                             <Grid item xs={12}>
-                              <Grid container justifyContent="center">
+                              <Grid
+                                container
+                                spacing={2}
+                                justifyContent="center"
+                              >
                                 <Grid item xs={6}>
                                   <Typography
                                     variant="h6"
@@ -371,7 +374,21 @@ const DashboardPage = () => {
                                       fontFamily: "Montserrat, sans-serif",
                                     }}
                                   >
-                                    <b>Fecha de Check In:</b> {fechaDeCheckIn}
+                                    <b>Fecha de Check In:</b>{" "}
+                                    {new Date(fechaDeCheckIn).toDateString()}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography
+                                    variant="h6"
+                                    sx={{
+                                      color: "#000000",
+                                      textAlign: "center",
+                                      fontFamily: "Montserrat, sans-serif",
+                                    }}
+                                  >
+                                    <b>Fecha de Check Out:</b>{" "}
+                                    {new Date(fechaDeCheckOut).toDateString()}
                                   </Typography>
                                 </Grid>
                                 <Grid item xs={6}>
@@ -397,7 +414,11 @@ const DashboardPage = () => {
                                   >
                                     <b>Servicios:</b>{" "}
                                     {!_.isEmpty(serviciosEspeciales)
-                                      ? serviciosEspeciales.join(", ")
+                                      ? serviciosEspeciales
+                                          .map(
+                                            (element) => element.nombreProducto
+                                          )
+                                          .join(", ")
                                       : "No hay servicios"}
                                   </Typography>
                                 </Grid>

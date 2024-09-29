@@ -6,7 +6,7 @@ import { Grid, Button, Checkbox, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { getListadoInventarioAPI } from "../../APICalls";
+import { crearReservaAPI, getListadoInventarioAPI } from "../../APICalls";
 
 const DATE_OPTIONS = { day: "numeric", month: "long", year: "numeric" };
 
@@ -15,14 +15,14 @@ const VerificarReserva = ({
   fechaFinal,
   handleChangeStep,
   habitacionData,
+  companions,
 }) => {
   const navigate = useNavigate();
 
   const [calculatedTotal, setCalculatedTotal] = useState(0);
   const [data, setData] = useState([habitacionData]);
   const [listadoInventario, setListadoInventario] = useState(null);
-  const [selectedInventario, setSelectedInventario] = useState(null);
-  const [values, setValues] = useState(listadoInventario);
+  const [values, setValues] = useState(null);
 
   const handleAPICallListado = async () => {
     const { status, data } = await getListadoInventarioAPI(
@@ -30,8 +30,36 @@ const VerificarReserva = ({
     );
     if (status === 200) {
       setListadoInventario(data);
-      setValues(listadoInventario);
+      setValues(data);
     }
+  };
+
+  const handleServicios = () => {
+    return values.filter((element) => {
+      return element.id;
+    });
+  };
+
+  const handleAPICrearReserva = async () => {
+    const { status } = await crearReservaAPI(
+      localStorage.getItem("token"),
+      new Date(),
+      habitacionData,
+      habitacionData.id,
+      fechaInicio,
+      fechaFinal,
+      "activo",
+      calculatedTotal,
+      values,
+      companions.adultos + companions.jovenes + companions.niños
+    );
+    if (status === 200) {
+      navigate("/dashboard");
+    }
+  };
+
+  const handleClickCrearReserva = () => {
+    handleAPICrearReserva();
   };
 
   const calculateDiasEntre = () => {
@@ -190,210 +218,219 @@ const VerificarReserva = ({
       </Grid>
       <Grid item xs={4}>
         <Grid container justifyContent="center" spacing={5}>
-          {data.map((element) => {
-            const { title, details, services, extraServices } = element;
-            return (
-              <>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: "#000000",
-                      textAlign: "left",
-                      fontFamily: "montserrat, sans-serif",
-                    }}
-                  >
-                    <b>{title}</b>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={2} justifyContent="center">
-                    {details.map((detailsElement) => {
-                      return (
-                        <Grid item xs={12} key={detailsElement}>
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              color: "grey",
-                              textAlign: "left",
-                              fontFamily: "montserrat, sans-serif",
-                            }}
-                          >
-                            {detailsElement}
-                          </Typography>
-                        </Grid>
-                      );
-                    })}
-                    <Grid item xs={12}>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: "grey",
-                          textAlign: "left",
-                          fontFamily: "montserrat, sans-serif",
-                        }}
-                      >
-                        {fechaInicio
-                          ? fechaInicio.toLocaleDateString(
-                              "es-CO",
-                              DATE_OPTIONS
-                            )
-                          : ""}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: "grey",
-                          textAlign: "left",
-                          fontFamily: "montserrat, sans-serif",
-                        }}
-                      >
-                        {fechaFinal
-                          ? fechaFinal.toLocaleDateString("es-CO", DATE_OPTIONS)
-                          : ""}
-                      </Typography>
-                    </Grid>
+          {data ? (
+            data.map((element) => {
+              const { title, details, extraServices } = element;
+              return (
+                <>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        color: "#000000",
+                        textAlign: "left",
+                        fontFamily: "montserrat, sans-serif",
+                      }}
+                    >
+                      <b>{title}</b>
+                    </Typography>
                   </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#000000",
-                      textAlign: "left",
-                      fontFamily: "montserrat, sans-serif",
-                    }}
-                  >
-                    <b>Servicios Incluidos:</b>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container justifyContent="center">
-                    {extraServices.map((servicesElement) => {
-                      return (
-                        <Grid item xs={12} key={servicesElement}>
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              color: "#000000",
-                              textAlign: "left",
-                              fontFamily: "montserrat, sans-serif",
-                            }}
-                          >
-                            - {servicesElement}
-                          </Typography>
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#000000",
-                      textAlign: "left",
-                      fontFamily: "montserrat, sans-serif",
-                    }}
-                  >
-                    <b>¿Deseas Agregar un Servicio Extra?</b>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container justifyContent="center" alignItems="center">
-                    {listadoInventario ? (
-                      listadoInventario.map((servicesElement, index) => {
-                        const { nombreProducto, image, precio } =
-                          servicesElement;
+                  <Grid item xs={12}>
+                    <Grid container spacing={2} justifyContent="center">
+                      {details.map((detailsElement) => {
                         return (
-                          <Grid item xs={6} key={index}>
-                            <Grid
-                              container
-                              justifyContent="center"
-                              alignItems="center"
+                          <Grid item xs={12} key={detailsElement}>
+                            <Typography
+                              variant="h5"
+                              sx={{
+                                color: "grey",
+                                textAlign: "left",
+                                fontFamily: "montserrat, sans-serif",
+                              }}
                             >
-                              <Grid item xs={6}>
-                                <Checkbox
-                                  {...nombreProducto}
-                                  onClick={handleCheckbox(
-                                    servicesElement,
-                                    index
-                                  )}
-                                  sx={{
-                                    "& .MuiSvgIcon-root": { fontSize: 28 },
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Grid
-                                  container
-                                  justifyContent="center"
-                                  alignItems="center"
-                                >
-                                  <Grid xs={12}>
-                                    <img
-                                      src={image}
-                                      style={{
-                                        height: "150px",
-                                        width: "100%",
-                                      }}
-                                    />
-                                  </Grid>
-                                  <Grid xs={12}>
-                                    <Typography
-                                      variant="h5"
-                                      sx={{
-                                        color: "#000000",
-                                        textAlign: "center",
-                                        fontFamily: "montserrat, sans-serif",
-                                      }}
-                                    >
-                                      <b>{nombreProducto}</b>
-                                    </Typography>
-                                  </Grid>
-                                  <Grid xs={12}>
-                                    <Typography
-                                      variant="h5"
-                                      sx={{
-                                        color: "grey",
-                                        textAlign: "center",
-                                        fontFamily: "montserrat, sans-serif",
-                                      }}
-                                    >
-                                      + {precio} USD
-                                    </Typography>
+                              {detailsElement}
+                            </Typography>
+                          </Grid>
+                        );
+                      })}
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: "grey",
+                            textAlign: "left",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {fechaInicio
+                            ? fechaInicio.toLocaleDateString(
+                                "es-CO",
+                                DATE_OPTIONS
+                              )
+                            : ""}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: "grey",
+                            textAlign: "left",
+                            fontFamily: "montserrat, sans-serif",
+                          }}
+                        >
+                          {fechaFinal
+                            ? fechaFinal.toLocaleDateString(
+                                "es-CO",
+                                DATE_OPTIONS
+                              )
+                            : ""}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        color: "#000000",
+                        textAlign: "left",
+                        fontFamily: "montserrat, sans-serif",
+                      }}
+                    >
+                      <b>Servicios Incluidos:</b>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container justifyContent="center">
+                      {extraServices.map((servicesElement) => {
+                        return (
+                          <Grid item xs={12} key={servicesElement}>
+                            <Typography
+                              variant="h5"
+                              sx={{
+                                color: "#000000",
+                                textAlign: "left",
+                                fontFamily: "montserrat, sans-serif",
+                              }}
+                            >
+                              - {servicesElement}
+                            </Typography>
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        color: "#000000",
+                        textAlign: "left",
+                        fontFamily: "montserrat, sans-serif",
+                      }}
+                    >
+                      <b>¿Deseas Agregar un Servicio Extra?</b>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container justifyContent="center" alignItems="center">
+                      {listadoInventario ? (
+                        listadoInventario.map((servicesElement, index) => {
+                          const { nombreProducto, image, precio } =
+                            servicesElement;
+                          return (
+                            <Grid item xs={6} key={index}>
+                              <Grid
+                                container
+                                justifyContent="center"
+                                alignItems="center"
+                              >
+                                <Grid item xs={6}>
+                                  <Checkbox
+                                    {...nombreProducto}
+                                    onClick={handleCheckbox(
+                                      servicesElement,
+                                      index
+                                    )}
+                                    sx={{
+                                      "& .MuiSvgIcon-root": { fontSize: 28 },
+                                    }}
+                                  />
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Grid
+                                    container
+                                    justifyContent="center"
+                                    alignItems="center"
+                                  >
+                                    <Grid xs={12}>
+                                      <img
+                                        src={image}
+                                        style={{
+                                          height: "150px",
+                                          width: "100%",
+                                        }}
+                                      />
+                                    </Grid>
+                                    <Grid xs={12}>
+                                      <Typography
+                                        variant="h5"
+                                        sx={{
+                                          color: "#000000",
+                                          textAlign: "center",
+                                          fontFamily: "montserrat, sans-serif",
+                                        }}
+                                      >
+                                        <b>{nombreProducto}</b>
+                                      </Typography>
+                                    </Grid>
+                                    <Grid xs={12}>
+                                      <Typography
+                                        variant="h5"
+                                        sx={{
+                                          color: "grey",
+                                          textAlign: "center",
+                                          fontFamily: "montserrat, sans-serif",
+                                        }}
+                                      >
+                                        + {precio} USD
+                                      </Typography>
+                                    </Grid>
                                   </Grid>
                                 </Grid>
                               </Grid>
                             </Grid>
-                          </Grid>
-                        );
-                      })
-                    ) : (
-                      <></>
-                    )}
+                          );
+                        })
+                      ) : (
+                        <></>
+                      )}
+                    </Grid>
                   </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h2"
-                    sx={{
-                      color: "black",
-                      textAlign: "center",
-                      fontFamily: "montserrat, sans-serif",
-                    }}
-                  >
-                    <b>Total: ${calculatedTotal} USD</b>
-                  </Typography>
-                </Grid>
-              </>
-            );
-          })}
+                  {calculatedTotal && (
+                    <Grid item xs={12}>
+                      <Typography
+                        variant="h2"
+                        sx={{
+                          color: "black",
+                          textAlign: "center",
+                          fontFamily: "montserrat, sans-serif",
+                        }}
+                      >
+                        <b>Total: ${calculatedTotal} USD</b>
+                      </Typography>
+                    </Grid>
+                  )}
+                </>
+              );
+            })
+          ) : (
+            <></>
+          )}
           <Grid item xs={12}>
             <Button
-              onClick={navigateListado}
+              onClick={handleClickCrearReserva}
               variant="contained"
               style={{
                 backgroundColor: "#a0ff99",

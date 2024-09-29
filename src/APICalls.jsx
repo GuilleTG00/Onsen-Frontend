@@ -64,22 +64,26 @@ export const loginAPI = async (email, password) => {
 export const crearReservaAPI = async (
   token,
   fechaDeReserva,
-  nombreHabitacion,
-  tipoHabitacion,
+  habitacionData,
+  habitacionId,
   fechaDeCheckIn,
   fechaDeCheckOut,
   estado,
-  calificacion
+  total,
+  serviciosEspeciales,
+  acompañantes
 ) => {
   const returnCall = await fetch(`${API_URLS.CREAR_RESERVA_URL}`, {
     body: JSON.stringify({
       fechaDeReserva,
-      nombreHabitacion,
-      tipoHabitacion,
+      habitacionData,
+      habitacionId,
       fechaDeCheckIn,
       fechaDeCheckOut,
       estado,
-      calificacion,
+      total,
+      serviciosEspeciales,
+      acompañantes,
     }),
     method: "POST",
     headers: {
