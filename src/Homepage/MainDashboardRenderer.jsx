@@ -84,7 +84,10 @@ const MainHomeRenderer = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("token");
     navigate("/home");
   };
 

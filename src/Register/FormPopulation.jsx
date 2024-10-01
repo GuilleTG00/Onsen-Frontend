@@ -14,6 +14,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
+import { createUser } from "../APICalls";
+
 const FormPopulation = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +55,33 @@ const FormPopulation = () => {
 
   const handleClickShowValidationPassword = () => {
     setShowValidationPassword(!showValidationPassword);
+  };
+
+  const createNewUserCall = () => {
+    createNewUser();
+  };
+
+  const createNewUser = async () => {
+    const {
+      username,
+      password,
+      nombre,
+      apellidos,
+      tipoIdentificacion,
+      numeroIdentificacion,
+    } = formFields;
+
+    const { status } = await createUser(
+      username,
+      password,
+      nombre,
+      apellidos,
+      tipoIdentificacion,
+      numeroIdentificacion
+    );
+    if (status === 200) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -161,7 +190,7 @@ const FormPopulation = () => {
           fullWidth
           id="apellidos"
           name="apellidos"
-          onChange={handleFormFields("numeroIdentificacion", false)}
+          onChange={handleFormFields("apellidos", false)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" className="text-primary">
@@ -188,7 +217,7 @@ const FormPopulation = () => {
           fullWidth
           id="num identificacion"
           name="num identificacion"
-          onChange={handleFormFields("username", false)}
+          onChange={handleFormFields("tipoIdentificacion", false)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" className="text-primary">
@@ -215,7 +244,7 @@ const FormPopulation = () => {
           fullWidth
           id="num identificacion"
           name="num identificacion"
-          onChange={handleFormFields("username", false)}
+          onChange={handleFormFields("numeroIdentificacion", false)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" className="text-primary">
@@ -315,7 +344,7 @@ const FormPopulation = () => {
               style={{
                 backgroundColor: "#a2fe99",
               }}
-              onClick={handleSignUp}
+              onClick={createNewUserCall}
               variant="contained"
             >
               <Typography

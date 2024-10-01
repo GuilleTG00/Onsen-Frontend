@@ -461,7 +461,16 @@ const DashboardPage = () => {
               );
             })
           ) : (
-            <></>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h5"
+                  style={{ fontFamily: "montserrat, sans-serif" }}
+                >
+                  No hay data disponible.
+                </Typography>
+              </Grid>
+            </Grid>
           )}
         </Grid>
       </Grid>

@@ -51,6 +51,9 @@ const FormPopulation = () => {
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("token", access_token);
       localStorage.setItem("username", username);
+      if (username.includes("gtoloza@unal.edu.co")) {
+        localStorage.setItem("isAdmin", true);
+      }
       navigate("/dashboard");
     }
   };

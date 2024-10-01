@@ -20,6 +20,7 @@ import {
   Alert,
   AlertTitle,
   Chip,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -84,7 +85,7 @@ const TableView = ({ tableData, setSelectedInventario }) => {
   };
 
   useEffect(() => {
-    setCurrentTableKeys(Object.keys(tableData[0]));
+    setCurrentTableKeys(tableData[0] ? Object.keys(tableData[0]) : []);
   }, []);
 
   return (
@@ -102,35 +103,15 @@ const TableView = ({ tableData, setSelectedInventario }) => {
       >
         <TableHead>
           <TableRow>
-            {!_.isEmpty(currentTableKeys) && !_.isNil(currentTableKeys)
-              ? currentTableKeys.map((key, index) => {
-                  if (key === "image") {
-                    return null;
-                  }
-                  if (key === "habitacionId") {
-                    return null;
-                  }
-                  if (key === "habitacionData") {
-                    return (
-                      <StyledTableCell
-                        key={index}
-                        index={key + index}
-                        style={{ textAlign: "center" }}
-                      >
-                        <Grid
-                          container
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <Grid item xs={12}>
-                            <b style={{ fontFamily: "montserrat, sans-serif" }}>
-                              {parseTitlesTable("Habitacion")}
-                            </b>
-                          </Grid>
-                        </Grid>
-                      </StyledTableCell>
-                    );
-                  }
+            {!_.isEmpty(currentTableKeys) && !_.isNil(currentTableKeys) ? (
+              currentTableKeys.map((key, index) => {
+                if (key === "image") {
+                  return null;
+                }
+                if (key === "habitacionId") {
+                  return null;
+                }
+                if (key === "habitacionData") {
                   return (
                     <StyledTableCell
                       key={index}
@@ -144,14 +125,41 @@ const TableView = ({ tableData, setSelectedInventario }) => {
                       >
                         <Grid item xs={12}>
                           <b style={{ fontFamily: "montserrat, sans-serif" }}>
-                            {parseTitlesTable(key)}
+                            {parseTitlesTable("Habitacion")}
                           </b>
                         </Grid>
                       </Grid>
                     </StyledTableCell>
                   );
-                })
-              : null}
+                }
+                return (
+                  <StyledTableCell
+                    key={index}
+                    index={key + index}
+                    style={{ textAlign: "center" }}
+                  >
+                    <Grid container alignItems="center" justifyContent="center">
+                      <Grid item xs={12}>
+                        <b style={{ fontFamily: "montserrat, sans-serif" }}>
+                          {parseTitlesTable(key)}
+                        </b>
+                      </Grid>
+                    </Grid>
+                  </StyledTableCell>
+                );
+              })
+            ) : (
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h5"
+                    style={{ fontFamily: "montserrat, sans-serif" }}
+                  >
+                    No hay data disponible.
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
